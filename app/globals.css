@@ -1,0 +1,31 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "react-calendar/dist/Calendar.css";
+
+/* Tipografía general */
+body {
+  @apply font-sans bg-pink-50 text-pink-800;
+}
+
+/* Suaviza el texto */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+/* Estilo para botones con efecto 3D */
+.button-3d {
+  @apply bg-pink-500 text-white py-2 px-6 rounded-full shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition duration-300 font-semibold;
+}
+
+/* Estilos base del body */
+body {
+  @apply font-sans bg-pink-50 text-pink-800;
+}
+
+/* Enlaces */
+a {
+  @apply text-pink-600 hover:text-pink-700 hover:underline;
+}

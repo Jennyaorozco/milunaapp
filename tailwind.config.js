@@ -4,7 +4,6 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -12,9 +11,9 @@ module.exports = {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
@@ -22,26 +21,6 @@ module.exports = {
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
         },
         pink: {
           50: "#fff0f6",
@@ -55,20 +34,41 @@ module.exports = {
           800: "#d70f4b",
           900: "#c00e44",
         },
+        rose: {
+          100: "#fce7f3",
+          300: "#f9a8d4",
+          500: "#ec4899",
+        },
+      },
+      fontFamily: {
+        sans: ['"Quicksand"', "sans-serif"],
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        xl: "2rem",
+        lg: "1.25rem",
+        md: "0.75rem",
+        sm: "0.5rem",
       },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "roses-pattern": "url('/backgrounds/roses.png')",
+        "hearts-pattern": "url('/backgrounds/hearts.png')",
+        "gradient-soft": "linear-gradient(to bottom right, #fff0f6, #ffe4ed)",
+      },
+      boxShadow: {
+        "btn-glow": "0 4px 15px rgba(255, 85, 132, 0.4)",
+        "card-soft": "0 4px 20px rgba(255, 192, 203, 0.2)",
       },
       animation: {
-        pulse: "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        fade: "fadeIn 1.5s ease-out",
+        pulse: "pulse 3s ease-in-out infinite",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: 0, transform: "translateY(20px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        },
       },
     },
   },
   plugins: [],
-}
+};

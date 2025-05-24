@@ -1,6 +1,7 @@
 export function FloralBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-20">
+    <div className="absolute inset-0 overflow-hidden opacity-10 pointer-events-none animate-fade">
+      {/* SVG superior izquierdo */}
       <div className="absolute top-0 left-0 w-32 h-32">
         <svg viewBox="0 0 100 100" className="w-full h-full text-pink-400">
           <path
@@ -9,6 +10,8 @@ export function FloralBackground() {
           />
         </svg>
       </div>
+
+      {/* SVG superior derecho */}
       <div className="absolute top-1/4 right-0 w-24 h-24">
         <svg viewBox="0 0 100 100" className="w-full h-full text-pink-300">
           <path
@@ -17,6 +20,8 @@ export function FloralBackground() {
           />
         </svg>
       </div>
+
+      {/* SVG inferior izquierdo */}
       <div className="absolute bottom-0 left-1/4 w-28 h-28">
         <svg viewBox="0 0 100 100" className="w-full h-full text-pink-300">
           <path
@@ -25,6 +30,8 @@ export function FloralBackground() {
           />
         </svg>
       </div>
+
+      {/* SVG inferior derecho */}
       <div className="absolute bottom-1/3 right-1/4 w-20 h-20">
         <svg viewBox="0 0 100 100" className="w-full h-full text-pink-400">
           <path
@@ -34,5 +41,5 @@ export function FloralBackground() {
         </svg>
       </div>
     </div>
-  )
+  );
 }
