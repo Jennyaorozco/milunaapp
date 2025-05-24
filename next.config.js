@@ -1,12 +1,21 @@
-@type {import('next').NextConfig} */
+// next.config.mjs
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-  swcMinify: true,
+  // Tus configuraciones adicionales van aquí, por ejemplo:
   images: {
-    domains: ["localhost", "your-supabase-bucket-url"], // ajusta si usas imágenes externas
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'plsthwkkambohyhzcwsy.supabase.co', // **Reemplaza con tu hostname real de Supabase Storage**
+                                                 // (ej. xyz.supabase.co, solo el dominio sin https://)
+      },
+    ],
   },
+  // experimental: {
+  //   serverActions: true, // Si estás utilizando Server Actions
+  // },
+  // ... cualquier otra configuración que tuvieras
 };
 
-export default nextConfig;
-
-
+export default nextConfig; // ¡MUY IMPORTANTE! Cambiar 'module.exports' a 'export default'npm 
