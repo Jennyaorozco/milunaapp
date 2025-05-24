@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import { addDays, format } from 'date-fns'
+import { testCycleConnection } from '../../commons/cycles'
 
 const STORAGE_KEY = 'menstrualCycleData'
 
@@ -40,14 +41,18 @@ export default function CalendarioPage() {
   }, [startDate, cycleLength, periodLength])
 
   const predictedNextCycle = startDate ? addDays(startDate, cycleLength) : null
-  const ovulationDate = predictedNextCycle ? addDays(predictedNextCycle, -14) : null
+  const ovulationDate = predictedNextCycle
+    ? addDays(predictedNextCycle, -14)
+    : null
   const fertileWindowStart = ovulationDate ? addDays(ovulationDate, -5) : null
   const fertileWindowEnd = ovulationDate ? addDays(ovulationDate, 1) : null
 
   return (
     <main className="min-h-screen bg-pink-50 py-10 px-4">
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
-        <h1 className="text-3xl font-bold text-pink-600 mb-4">📅 Calendario Menstrual</h1>
+        <h1 className="text-3xl font-bold text-pink-600 mb-4">
+          📅 Calendario Menstrual
+        </h1>
         <p className="mb-4 text-pink-700">
           Selecciona la fecha de inicio de tu último ciclo menstrual:
         </p>
@@ -82,14 +87,32 @@ export default function CalendarioPage() {
 
         {startDate && (
           <div className="text-pink-700 space-y-2">
-            <p>🩸 Último ciclo: <strong>{format(startDate, 'dd MMMM yyyy')}</strong></p>
-            <p>🔮 Próximo ciclo estimado: <strong>{format(predictedNextCycle!, 'dd MMMM yyyy')}</strong></p>
-            <p>💞 Ventana fértil estimada: <strong>{format(fertileWindowStart!, 'dd MMM')} - {format(fertileWindowEnd!, 'dd MMM')}</strong></p>
-            <p>🌕 Ovulación estimada: <strong>{format(ovulationDate!, 'dd MMMM')}</strong></p>
-            <p>🛑 Duración del periodo: <strong>{periodLength} días</strong></p>
+            <p>
+              🩸 Último ciclo:{' '}
+              <strong>{format(startDate, 'dd MMMM yyyy')}</strong>
+            </p>
+            <p>
+              🔮 Próximo ciclo estimado:{' '}
+              <strong>{format(predictedNextCycle!, 'dd MMMM yyyy')}</strong>
+            </p>
+            <p>
+              💞 Ventana fértil estimada:{' '}
+              <strong>
+                {format(fertileWindowStart!, 'dd MMM')} -{' '}
+                {format(fertileWindowEnd!, 'dd MMM')}
+              </strong>
+            </p>
+            <p>
+              🌕 Ovulación estimada:{' '}
+              <strong>{format(ovulationDate!, 'dd MMMM')}</strong>
+            </p>
+            <p>
+              🛑 Duración del periodo: <strong>{periodLength} días</strong>
+            </p>
           </div>
         )}
       </div>
+      <button onClick={testCycleConnection}>probar conexion</button>
     </main>
   )
 }
