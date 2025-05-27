@@ -36,7 +36,6 @@ export default function TipsPage() {
   const cycleLength = cycleData.cycleLength
   const periodLength = cycleData.periodLength
 
-  // Calcular fechas estimadas
   const predictedNextCycle = addDays(startDate, cycleLength)
   const ovulationDate = addDays(predictedNextCycle, -14)
   const fertileWindowStart = addDays(ovulationDate, -5)
@@ -50,12 +49,12 @@ export default function TipsPage() {
         <section className="mb-6">
           <h2 className="text-2xl font-semibold mb-2">Información de tu ciclo</h2>
           <ul className="list-disc list-inside space-y-1">
-            <li>Último ciclo: <strong>{format(startDate, 'dd MMMM yyyy')}</strong></li>
-            <li>Duración del ciclo: <strong>{cycleLength} días</strong></li>
-            <li>Duración del periodo: <strong>{periodLength} días</strong></li>
-            <li>Próximo ciclo estimado: <strong>{format(predictedNextCycle, 'dd MMMM yyyy')}</strong></li>
-            <li>Ventana fértil estimada: <strong>{format(fertileWindowStart, 'dd MMM')} - {format(fertileWindowEnd, 'dd MMM')}</strong></li>
-            <li>Ovulación estimada: <strong>{format(ovulationDate, 'dd MMMM')}</strong></li>
+            <li>🩸 Último ciclo: <strong>{format(startDate, 'dd MMMM yyyy')}</strong></li>
+            <li>📆 Duración del ciclo: <strong>{cycleLength} días</strong></li>
+            <li>🩺 Duración del periodo: <strong>{periodLength} días</strong></li>
+            <li>🔮 Próximo ciclo estimado: <strong>{format(predictedNextCycle, 'dd MMMM yyyy')}</strong></li>
+            <li>💞 Ventana fértil estimada: <strong>{format(fertileWindowStart, 'dd MMM')} - {format(fertileWindowEnd, 'dd MMM')}</strong></li>
+            <li>🌕 Ovulación estimada: <strong>{format(ovulationDate, 'dd MMMM')}</strong></li>
           </ul>
         </section>
 

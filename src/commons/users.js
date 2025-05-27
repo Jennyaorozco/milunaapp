@@ -1,4 +1,4 @@
-import { supabase } from '../../lib/subabase'
+import { supabase } from '@supabase/supabase-js'
 
 const testUsersConnection = async () => {
   const { data, error } = await supabase.from('user').select('*')

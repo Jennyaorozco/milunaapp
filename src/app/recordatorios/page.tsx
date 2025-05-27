@@ -1,6 +1,17 @@
-import Link from "next/link"
-import { MiLunaLogo } from "@/components/mi-luna-logo"
-import { FloralBackground } from "@/components/floral-background"
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { supabase } from '@/lib/supabase'
+import { MiLunaLogo } from '@/components/mi-luna-logo'
+import { FloralBackground } from '@/components/floral-background'
+
+type Notification = {
+  id: string
+  type: string
+  scheduled_at: string
+  status: string
+}
 
 export default function Recordatorios() {
   const reminders = [
@@ -10,6 +21,41 @@ export default function Recordatorios() {
     { name: "Control Médico", icon: "🩺", description: "Citas ginecológicas" },
   ]
 
+  const [notifications, setNotifications] = useState<Notification[]>([])
+  const [newType, setNewType] = useState('')
+  const [newDate, setNewDate] = useState('')
+
+  const fetchNotifications = async () => {
+    const { data, error } = await supabase.from('notifications').select('*')
+    if (error) console.error('Error al cargar:', error)
+    else setNotifications(data as Notification[])
+  }
+
+  const addNotification = async () => {
+    if (!newType || !newDate) return
+    const { error } = await supabase.from('notifications').insert({
+      type: newType,
+      scheduled_at: newDate,
+      status: 'pendiente',
+    })
+    if (error) console.error('Error al agregar:', error)
+    else {
+      setNewType('')
+      setNewDate('')
+      fetchNotifications()
+    }
+  }
+
+  const deleteNotification = async (id: string) => {
+    const { error } = await supabase.from('notifications').delete().eq('id', id)
+    if (error) console.error('Error al eliminar:', error)
+    else fetchNotifications()
+  }
+
+  useEffect(() => {
+    fetchNotifications()
+  }, [])
+
   return (
     <main className="flex min-h-screen flex-col items-center py-8 px-4 bg-pink-100 relative">
       <FloralBackground />
@@ -17,13 +63,7 @@ export default function Recordatorios() {
       <div className="z-10 flex flex-col items-center gap-6 w-full max-w-md">
         <div className="flex justify-between items-center w-full">
           <Link href="/menu" className="text-pink-700">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </Link>
@@ -33,41 +73,49 @@ export default function Recordatorios() {
 
         <h2 className="text-xl font-semibold text-pink-700">Mis Recordatorios</h2>
 
-        <div className="w-full flex justify-center mb-4">
-          <div className="relative w-32 h-32">
-            <svg viewBox="0 0 100 100" className="w-full h-full text-pink-600">
-              <circle cx="50" cy="50" r="45" fill="white" stroke="currentColor" strokeWidth="2" />
-              <circle cx="50" cy="50" r="3" fill="currentColor" />
-              <line x1="50" y1="50" x2="50" y2="25" stroke="currentColor" strokeWidth="2" />
-              <line x1="50" y1="50" x2="70" y2="60" stroke="currentColor" strokeWidth="2" />
-              {Array.from({ length: 12 }).map((_, i) => {
-                const angle = (i * 30 * Math.PI) / 180
-                const x1 = 50 + 40 * Math.sin(angle)
-                const y1 = 50 - 40 * Math.cos(angle)
-                const x2 = 50 + 45 * Math.sin(angle)
-                const y2 = 50 - 45 * Math.cos(angle)
-                return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="currentColor" strokeWidth="2" />
-              })}
-            </svg>
-          </div>
+        <div className="w-full bg-white/80 backdrop-blur-md rounded-xl p-6 border border-pink-300 shadow-lg space-y-4">
+          {notifications.length === 0 ? (
+            <p className="text-pink-600 text-center">No hay recordatorios aún.</p>
+          ) : (
+            notifications.map((reminder) => (
+              <div key={reminder.id} className="flex items-center justify-between bg-white rounded-lg p-3 shadow-sm border border-pink-200">
+                <div>
+                  <h3 className="text-pink-700 font-medium">{reminder.type}</h3>
+                  <p className="text-xs text-pink-500">{new Date(reminder.scheduled_at).toLocaleString()}</p>
+                </div>
+                <button
+                  onClick={() => deleteNotification(reminder.id)}
+                  className="text-xs text-white bg-pink-500 hover:bg-pink-600 rounded-full px-3 py-1 shadow transition"
+                >
+                  Eliminar
+                </button>
+              </div>
+            ))
+          )}
         </div>
 
-        <div className="w-full grid grid-cols-2 gap-4">
-          {reminders.map((reminder, index) => (
-            <div
-              key={index}
-              className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-pink-300 shadow-md flex flex-col items-center text-center"
-            >
-              <span className="text-2xl mb-2">{reminder.icon}</span>
-              <h3 className="text-pink-700 font-medium">{reminder.name}</h3>
-              <p className="text-xs text-pink-500 mt-1">{reminder.description}</p>
-            </div>
-          ))}
+        <div className="w-full bg-white/80 backdrop-blur-md rounded-xl p-6 border border-pink-300 shadow-lg space-y-3 mt-6">
+          <h3 className="text-pink-700 font-semibold text-sm mb-2">Agregar nuevo recordatorio</h3>
+          <input
+            type="text"
+            value={newType}
+            onChange={(e) => setNewType(e.target.value)}
+            placeholder="Tipo (ej. Cita médica)"
+            className="w-full px-4 py-2 border border-pink-200 rounded-full text-sm text-pink-700 focus:outline-none"
+          />
+          <input
+            type="datetime-local"
+            value={newDate}
+            onChange={(e) => setNewDate(e.target.value)}
+            className="w-full px-4 py-2 border border-pink-200 rounded-full text-sm text-pink-700 focus:outline-none"
+          />
+          <button
+            onClick={addNotification}
+            className="button-3d w-full mt-2 bg-pink-500 hover:bg-pink-600 text-white rounded-full py-2 font-semibold"
+          >
+            Guardar Recordatorio
+          </button>
         </div>
-
-        <button className="bg-pink-500 hover:bg-pink-600 text-white py-2 px-6 rounded-full font-medium shadow-md transition-colors mt-4">
-          Añadir recordatorio
-        </button>
       </div>
     </main>
   )

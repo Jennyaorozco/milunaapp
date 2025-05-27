@@ -1,68 +1,77 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import { addDays, format } from 'date-fns'
-import { testCycleConnection } from '../../commons/cycles'
-
-const STORAGE_KEY = 'menstrualCycleData'
-
-type CycleData = {
-  startDate: string | null
-  cycleLength: number
-  periodLength: number
-}
+import { supabase } from '@/lib/supabase'
+import { useUser } from '@supabase/auth-helpers-react'
 
 export default function CalendarioPage() {
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [cycleLength, setCycleLength] = useState(28)
   const [periodLength, setPeriodLength] = useState(5)
+  const user = useUser()
 
-  // Al cargar, leer datos guardados
+  // 🔄 Cargar los datos desde Supabase al iniciar
   useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      const data: CycleData = JSON.parse(stored)
-      if (data.startDate) setStartDate(new Date(data.startDate))
-      if (data.cycleLength) setCycleLength(data.cycleLength)
-      if (data.periodLength) setPeriodLength(data.periodLength)
-    }
-  }, [])
+    if (!user) return
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from('cycles')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
 
-  // Guardar en localStorage cada vez que cambien los datos
-  useEffect(() => {
-    const data: CycleData = {
-      startDate: startDate ? startDate.toISOString() : null,
-      cycleLength,
-      periodLength,
+      if (data) {
+        setStartDate(new Date(data.start_date))
+        setCycleLength(data.cycle_length)
+        setPeriodLength(data.period_length)
+      }
     }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  }, [startDate, cycleLength, periodLength])
+
+    fetchData()
+  }, [user])
+
+  // ✅ Guardar datos en Supabase
+  const guardarCiclo = async () => {
+    if (!user || !startDate) return
+
+    const { error } = await supabase.from('cycles').insert({
+      user_id: user.id,
+      start_date: startDate,
+      end_date: addDays(startDate, periodLength),
+      symptoms: '',
+      mood: '',
+      created_at: new Date(),
+    })
+
+    if (error) {
+      alert('❌ Error al guardar el ciclo.')
+    } else {
+      alert('✅ Ciclo guardado correctamente.')
+    }
+  }
 
   const predictedNextCycle = startDate ? addDays(startDate, cycleLength) : null
-  const ovulationDate = predictedNextCycle
-    ? addDays(predictedNextCycle, -14)
-    : null
+  const ovulationDate = predictedNextCycle ? addDays(predictedNextCycle, -14) : null
   const fertileWindowStart = ovulationDate ? addDays(ovulationDate, -5) : null
   const fertileWindowEnd = ovulationDate ? addDays(ovulationDate, 1) : null
 
   return (
     <main className="min-h-screen bg-pink-50 py-10 px-4">
       <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
-        <h1 className="text-3xl font-bold text-pink-600 mb-4">
-          📅 Calendario Menstrual
-        </h1>
-        <p className="mb-4 text-pink-700">
-          Selecciona la fecha de inicio de tu último ciclo menstrual:
-        </p>
+        <h1 className="text-3xl font-bold text-pink-600 mb-4">📅 Calendario Menstrual</h1>
+        <p className="mb-4 text-pink-700">Selecciona la fecha de inicio de tu último ciclo menstrual:</p>
 
         <div className="mb-6">
           <Calendar onChange={setStartDate} value={startDate} />
         </div>
 
         <label className="block mb-4 text-pink-700">
-          Duración promedio de tu periodo (días):
+          Duración del periodo:
           <input
             type="number"
             min={1}
@@ -74,7 +83,7 @@ export default function CalendarioPage() {
         </label>
 
         <label className="block mb-6 text-pink-700">
-          Duración promedio del ciclo (días):
+          Duración del ciclo:
           <input
             type="number"
             min={21}
@@ -85,34 +94,22 @@ export default function CalendarioPage() {
           />
         </label>
 
+        <button
+          onClick={guardarCiclo}
+          className="button-3d bg-pink-500 text-white px-6 py-2 rounded-full mt-4"
+        >
+          Guardar ciclo
+        </button>
+
         {startDate && (
-          <div className="text-pink-700 space-y-2">
-            <p>
-              🩸 Último ciclo:{' '}
-              <strong>{format(startDate, 'dd MMMM yyyy')}</strong>
-            </p>
-            <p>
-              🔮 Próximo ciclo estimado:{' '}
-              <strong>{format(predictedNextCycle!, 'dd MMMM yyyy')}</strong>
-            </p>
-            <p>
-              💞 Ventana fértil estimada:{' '}
-              <strong>
-                {format(fertileWindowStart!, 'dd MMM')} -{' '}
-                {format(fertileWindowEnd!, 'dd MMM')}
-              </strong>
-            </p>
-            <p>
-              🌕 Ovulación estimada:{' '}
-              <strong>{format(ovulationDate!, 'dd MMMM')}</strong>
-            </p>
-            <p>
-              🛑 Duración del periodo: <strong>{periodLength} días</strong>
-            </p>
+          <div className="text-pink-700 space-y-2 mt-6">
+            <p>🩸 Último ciclo: <strong>{format(startDate, 'dd MMMM yyyy')}</strong></p>
+            <p>🔮 Próximo ciclo: <strong>{format(predictedNextCycle!, 'dd MMMM yyyy')}</strong></p>
+            <p>💞 Ventana fértil: <strong>{format(fertileWindowStart!, 'dd MMM')} - {format(fertileWindowEnd!, 'dd MMM')}</strong></p>
+            <p>🌕 Ovulación: <strong>{format(ovulationDate!, 'dd MMMM')}</strong></p>
           </div>
         )}
       </div>
-      <button onClick={testCycleConnection}>probar conexion</button>
     </main>
   )
 }

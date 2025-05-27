@@ -1,4 +1,4 @@
-import { supabase } from '../../lib/subabase'
+import { supabase } from '@supabase/supabase-js'
 
 async function testCycleConnection() {
   const { data, error } = await supabase.from('cycles').select('*')
