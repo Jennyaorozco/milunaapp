@@ -1,7 +1,6 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next' // Añadimos Viewport al import
 import { Inter } from 'next/font/google'
 import './globals.css'
-import ClientWrapper from './ClientWrapper'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,11 +21,16 @@ export const metadata: Metadata = {
     'Mi Luna',
     'seguimiento',
   ],
-  themeColor: '#ffe4ed',
-  colorScheme: 'light',
+  // Eliminamos themeColor y colorScheme de aquí
   icons: {
     icon: '/favicon.ico',
   },
+}
+
+// Añadimos este nuevo objeto viewport
+export const viewport: Viewport = {
+  themeColor: '#ffe4ed',
+  colorScheme: 'light',
 }
 
 export default function RootLayout({
@@ -39,7 +43,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-gradient-to-b from-white via-pink-50 to-pink-100 text-pink-900 min-h-screen`}
       >
-        <ClientWrapper>{children}</ClientWrapper>
+        {children}
       </body>
     </html>
   )

@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { MiLunaLogo } from "@/components/mi-luna-logo"
-import { FloralBackground } from "@/components/floral-background"
+import { MiLunaLogo } from "@/components/ui/mi-luna-logo"
+import { FloralBackground } from "@/components/ui/floral-background"
 
 export default function Menu() {
   const menuItems = [

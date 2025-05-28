@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { MiLunaLogo } from '@/components/mi-luna-logo'
-import { FloralBackground } from '@/components/floral-background'
+import { MiLunaLogo } from '@/components/ui/mi-luna-logo'
+import { FloralBackground } from '@/components/ui/floral-background'
 import { supabase } from '@/lib/supabase'
 
 export default function Registro() {

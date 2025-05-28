@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fuente y fondo delicado */
+:root {
+  --foreground-rgb: 80, 0, 40;
+  --background-start-rgb: 255, 240, 245;
+  --background-end-rgb: 255, 228, 240;
+}
+
+body {
+  font-family: 'Quicksand', sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
+    rgb(var(--background-start-rgb));
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Compatibilidad moderna con text-balance */
+@supports (text-wrap: balance) {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Botones con efecto 3D */
+.button-3d {
+  @apply bg-pink-500 text-white py-2 px-6 rounded-full shadow-lg hover:shadow-2xl transform hover:-translate-y-1 transition duration-300 font-semibold;
+}

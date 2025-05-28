@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
-import { MiLunaLogo } from '@/components/mi-luna-logo'
-import { FloralBackground } from '@/components/floral-background'
+import { MiLunaLogo } from '@/components/ui/mi-luna-logo'
+import { FloralBackground } from '@/components/ui/floral-background'
 
 type Notification = {
   id: string

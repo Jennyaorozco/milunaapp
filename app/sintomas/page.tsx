@@ -1,7 +1,7 @@
 import Link from "next/link"
-import { MiLunaLogo } from "@/components/mi-luna-logo"
-import { FloralBackground } from "@/components/floral-background"
-import { Calendar } from "@/components/calendar"
+import { MiLunaLogo } from "@/components/ui/mi-luna-logo"
+import { FloralBackground } from "@/components/ui/floral-background"
+import { Calendar } from "@/components/ui/calendar"
 
 export default function Sintomas() {
   const categories = [
