@@ -1,0 +1,450 @@
+{
+  "flujo_menstrual": [
+    {
+      "titulo": "Flujo muy abundante",
+      "detalle": "Puede indicar desequilibrios hormonales o miomas; para más información consulta https://es.wikipedia.org/wiki/Menorragia"
+    },
+    {
+      "titulo": "Flujo escaso",
+      "detalle": "Podría estar asociado al estrés o problemas tiroideos; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Flujo marrón al inicio",
+      "detalle": "Es sangre vieja; puede ser normal o señal de baja progesterona; para más información consulta https://es.wikipedia.org/wiki/Dolor_intermenstrual"
+    },
+    {
+      "titulo": "Flujo muy abundante",
+      "detalle": "Puede indicar desequilibrios hormonales o miomas; para más información consulta https://es.wikipedia.org/wiki/Menorragia"
+    },
+    {
+      "titulo": "Flujo escaso",
+      "detalle": "Podría estar asociado al estrés o problemas tiroideos; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Flujo marrón al inicio",
+      "detalle": "Es sangre vieja; puede ser normal o señal de baja progesterona; para más información consulta https://es.wikipedia.org/wiki/Dolor_intermenstrual"
+    },
+    {
+      "titulo": "Flujo muy abundante",
+      "detalle": "Puede indicar desequilibrios hormonales o miomas; para más información consulta https://es.wikipedia.org/wiki/Menorragia"
+    },
+    {
+      "titulo": "Flujo escaso",
+      "detalle": "Podría estar asociado al estrés o problemas tiroideos; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Flujo marrón al inicio",
+      "detalle": "Es sangre vieja; puede ser normal o señal de baja progesterona; para más información consulta https://es.wikipedia.org/wiki/Dolor_intermenstrual"
+    },
+    {
+      "titulo": "Flujo muy abundante",
+      "detalle": "Puede indicar desequilibrios hormonales o miomas; para más información consulta https://es.wikipedia.org/wiki/Menorragia"
+    },
+    {
+      "titulo": "Flujo escaso",
+      "detalle": "Podría estar asociado al estrés o problemas tiroideos; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Flujo marrón al inicio",
+      "detalle": "Es sangre vieja; puede ser normal o señal de baja progesterona; para más información consulta https://es.wikipedia.org/wiki/Dolor_intermenstrual"
+    },
+    {
+      "titulo": "Flujo muy abundante",
+      "detalle": "Puede indicar desequilibrios hormonales o miomas; para más información consulta https://es.wikipedia.org/wiki/Menorragia"
+    },
+    {
+      "titulo": "Flujo escaso",
+      "detalle": "Podría estar asociado al estrés o problemas tiroideos; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Flujo marrón al inicio",
+      "detalle": "Es sangre vieja; puede ser normal o señal de baja progesterona; para más información consulta https://es.wikipedia.org/wiki/Dolor_intermenstrual"
+    },
+    {
+      "titulo": "Flujo muy abundante",
+      "detalle": "Puede indicar desequilibrios hormonales o miomas; para más información consulta https://es.wikipedia.org/wiki/Menorragia"
+    },
+    {
+      "titulo": "Flujo escaso",
+      "detalle": "Podría estar asociado al estrés o problemas tiroideos; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Flujo marrón al inicio",
+      "detalle": "Es sangre vieja; puede ser normal o señal de baja progesterona; para más información consulta https://es.wikipedia.org/wiki/Dolor_intermenstrual"
+    },
+    {
+      "titulo": "Flujo muy abundante",
+      "detalle": "Puede indicar desequilibrios hormonales o miomas; para más información consulta https://es.wikipedia.org/wiki/Menorragia"
+    },
+    {
+      "titulo": "Flujo escaso",
+      "detalle": "Podría estar asociado al estrés o problemas tiroideos; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    }
+  ],
+  "sintomas_fisicos": [
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    },
+    {
+      "titulo": "Dolor abdominal bajo",
+      "detalle": "Causado por contracciones uterinas; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/menstrual-cramps/diagnosis-treatment/drc-20374944"
+    },
+    {
+      "titulo": "Dolor de cabeza",
+      "detalle": "Relación con caída de estrógenos; para más información consulta https://espanol.nichd.nih.gov/salud/temas/menstruation/informacion/sintomas"
+    },
+    {
+      "titulo": "Fatiga",
+      "detalle": "Desgaste energético por pérdida de sangre o SPM; para más información consulta https://www.mayoclinic.org/es/diseases-conditions/premenstrual-syndrome/symptoms-causes/syc-20376780"
+    }
+  ],
+  "actitudes_por_sanar": [
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    },
+    {
+      "titulo": "Culpa por descansar",
+      "detalle": "La cultura productivista impide el reposo menstrual; para más información consulta https://kiarawomen.com/blogs/blog/emociones-ciclo-menstrual"
+    },
+    {
+      "titulo": "Vergüenza del sangrado",
+      "detalle": "Estigma menstrual social; para más información consulta https://es.wikipedia.org/wiki/Estigma_menstrual"
+    },
+    {
+      "titulo": "Autoexigencia extrema",
+      "detalle": "Negación de las fases cíclicas del cuerpo; para más información consulta https://cadenaser.com/galicia/2024/12/04/descifrando-el-ciclo-menstrual-todo-lo-que-necesitas-saber-radio-coruna/"
+    }
+  ],
+  "emociones_frecuentes": [
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    },
+    {
+      "titulo": "Tristeza profunda",
+      "detalle": "A veces sin causa aparente; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Irritabilidad",
+      "detalle": "Por la sensibilidad emocional del momento; para más información consulta https://helloclue.com/es/articulos/emociones/cambios-de-humor-y-el-ciclo-menstrual-spm-y-tdpm"
+    },
+    {
+      "titulo": "Melancolía",
+      "detalle": "Conexión con memorias y duelos; para más información consulta https://hic.fcv.org/co/blog/instituto-para-el-cuidado-de-la-mujer/una-montana-rusa-emocional-el-estado-animico-durante-la-menstruacion"
+    }
+  ]
+}

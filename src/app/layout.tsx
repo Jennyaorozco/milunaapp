@@ -8,7 +8,7 @@ const inter = Inter({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Mi Luna",
   description: "Aplicación para seguimiento del ciclo menstrual",
-    generator: 'v0.dev'
+  generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -17,8 +17,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es">
-      <body className={`${inter.className} bg-pink-50`}>{children}</body>
+    <html lang="es" className={inter.className}>
+      <body className="relative overflow-x-hidden">
+        {children}
+      </body>
     </html>
   )
 }

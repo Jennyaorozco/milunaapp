@@ -1,40 +1,80 @@
-import Link from "next/link"
-import { MiLunaLogo } from "@/components/mi-luna-logo"
-import { FloralBackground } from "@/components/floral-background"
+'use client'
 
-export default function Login() {
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { MiLunaLogo } from '@/components/mi_luna_logo'
+
+export default function LoginPage() {
+  const router = useRouter()
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    // ✅ Clave corregida: 'usuarios' (no 'users')
+    const users = JSON.parse(localStorage.getItem('usuarios') || '[]')
+    const user = users.find(
+      (u: any) => u.username === username && u.password === password
+    )
+
+    if (!user) {
+      setError('Usuario o contraseña incorrectos')
+      return
+    }
+
+    localStorage.setItem('usuarioActivo', JSON.stringify(user))
+    router.push('/menu')
+  }
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-pink-100 p-6 relative">
-      <FloralBackground />
-
-      <div className="z-10 flex flex-col items-center gap-8 w-full max-w-sm">
+    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 px-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm text-center">
         <MiLunaLogo size="medium" />
 
-        <div className="w-full space-y-4">
-          <div className="relative">
+        <h2 className="text-2xl font-bold text-pink-700 mt-4 mb-6">Inicia sesión</h2>
+
+        <form onSubmit={handleLogin} className="flex flex-col gap-4 text-left">
+          <div>
+            <label className="text-sm text-gray-700">Usuario</label>
             <input
-              type="email"
-              placeholder="Escribe E-m@il"
-              className="w-full bg-white/80 backdrop-blur-sm border border-pink-300 rounded-full py-3 px-6 text-pink-900 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"
+              required
             />
           </div>
 
-          <div className="relative">
+          <div>
+            <label className="text-sm text-gray-700">Contraseña</label>
             <input
               type="password"
-              placeholder="Tu contraseña"
-              className="w-full bg-white/80 backdrop-blur-sm border border-pink-300 rounded-full py-3 px-6 text-pink-900 placeholder-pink-400 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"
+              required
             />
           </div>
 
-          <button className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 px-6 rounded-full font-medium shadow-md transition-colors mt-6">
+          {error && <p className="text-red-600 text-sm">{error}</p>}
+
+          <button
+            type="submit"
+            className="bg-pink-600 text-white py-2 rounded-md hover:bg-pink-700 transition"
+          >
             Iniciar sesión
           </button>
-        </div>
+        </form>
 
-        <Link href="/" className="text-pink-700 hover:text-pink-800 text-sm">
-          Volver
-        </Link>
+        <p className="text-sm text-gray-600 mt-6">
+          ¿No tienes cuenta?{' '}
+          <Link href="/register" className="text-pink-700 hover:underline font-medium">
+            Regístrate
+          </Link>
+        </p>
       </div>
     </main>
   )
