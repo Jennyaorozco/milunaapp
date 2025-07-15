@@ -1,0 +1,706 @@
+[
+  {
+    "keywords": [
+      "flujo rosado"
+    ],
+    "titulo": "Flujo rosado",
+    "detalle": "Podría indicar desequilibrio hormonal o inicio del periodo. Si persiste, consulta a tu médico.",
+    "link": "https://www.salud.mapfre.es/enfermedades/flujo-vaginal-rosado/"
+  },
+  {
+    "keywords": [
+      "flujo espeso"
+    ],
+    "titulo": "Flujo espeso",
+    "detalle": "El flujo espeso blanco puede ser normal si no hay olor ni picazón. Si hay molestias, podrías tener una infección por hongos.",
+    "link": "https://www.plannedparenthood.org/es/temas-de-salud/salud-vaginal/infecciones-vaginales"
+  },
+  {
+    "keywords": [
+      "náuseas"
+    ],
+    "titulo": "Náuseas",
+    "detalle": "Las náuseas pueden relacionarse con cambios hormonales. Come algo liviano y mantente hidratada.",
+    "link": "https://www.medlineplus.gov/spanish/ency/article/003117.htm"
+  },
+  {
+    "keywords": [
+      "mareos"
+    ],
+    "titulo": "Mareos",
+    "detalle": "Levántate despacio y mantente hidratada. Si los mareos persisten, acude a un profesional.",
+    "link": "https://www.mayoclinic.org/es/diseases-conditions/dizziness/symptoms-causes/syc-20371787"
+  },
+  {
+    "keywords": [
+      "enojo"
+    ],
+    "titulo": "Enojo",
+    "detalle": "Reconoce tu emoción, haz respiraciones profundas y aléjate de situaciones que te detonen.",
+    "link": "https://psicologiaymente.com/clinica/como-controlar-la-ira"
+  },
+  {
+    "keywords": [
+      "soledad"
+    ],
+    "titulo": "Sentimiento de soledad",
+    "detalle": "Conecta con alguien cercano, escribe lo que sientes o realiza una actividad que disfrutes.",
+    "link": "https://lamenteesmaravillosa.com/como-enfrentar-la-soledad/"
+  },
+  {
+    "keywords": [
+      "autocuidado"
+    ],
+    "titulo": "Autocuidado",
+    "detalle": "Haz pausas, duerme lo suficiente y realiza actividades que te den bienestar emocional.",
+    "link": "https://www.psicoactiva.com/blog/importancia-autocuidado-emocional/"
+  },
+  {
+    "keywords": [
+      "culpa"
+    ],
+    "titulo": "Sentimiento de culpa",
+    "detalle": "El perdón hacia ti misma es fundamental para sanar. Hablarlo en terapia puede ayudarte.",
+    "link": "https://www.terapiasintegrativas.com/articulos/culpa-y-perdon"
+  },
+  {
+    "keywords": [
+      "síntoma-0"
+    ],
+    "titulo": "Consejo para síntoma-0",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 0.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-0"
+  },
+  {
+    "keywords": [
+      "síntoma-1"
+    ],
+    "titulo": "Consejo para síntoma-1",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 1.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-1"
+  },
+  {
+    "keywords": [
+      "síntoma-2"
+    ],
+    "titulo": "Consejo para síntoma-2",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 2.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-2"
+  },
+  {
+    "keywords": [
+      "síntoma-3"
+    ],
+    "titulo": "Consejo para síntoma-3",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 3.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-3"
+  },
+  {
+    "keywords": [
+      "síntoma-4"
+    ],
+    "titulo": "Consejo para síntoma-4",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 4.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-4"
+  },
+  {
+    "keywords": [
+      "síntoma-5"
+    ],
+    "titulo": "Consejo para síntoma-5",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 5.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-5"
+  },
+  {
+    "keywords": [
+      "síntoma-6"
+    ],
+    "titulo": "Consejo para síntoma-6",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 6.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-6"
+  },
+  {
+    "keywords": [
+      "síntoma-7"
+    ],
+    "titulo": "Consejo para síntoma-7",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 7.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-7"
+  },
+  {
+    "keywords": [
+      "síntoma-8"
+    ],
+    "titulo": "Consejo para síntoma-8",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 8.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-8"
+  },
+  {
+    "keywords": [
+      "síntoma-9"
+    ],
+    "titulo": "Consejo para síntoma-9",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 9.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-9"
+  },
+  {
+    "keywords": [
+      "síntoma-10"
+    ],
+    "titulo": "Consejo para síntoma-10",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 10.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-10"
+  },
+  {
+    "keywords": [
+      "síntoma-11"
+    ],
+    "titulo": "Consejo para síntoma-11",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 11.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-11"
+  },
+  {
+    "keywords": [
+      "síntoma-12"
+    ],
+    "titulo": "Consejo para síntoma-12",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 12.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-12"
+  },
+  {
+    "keywords": [
+      "síntoma-13"
+    ],
+    "titulo": "Consejo para síntoma-13",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 13.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-13"
+  },
+  {
+    "keywords": [
+      "síntoma-14"
+    ],
+    "titulo": "Consejo para síntoma-14",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 14.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-14"
+  },
+  {
+    "keywords": [
+      "síntoma-15"
+    ],
+    "titulo": "Consejo para síntoma-15",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 15.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-15"
+  },
+  {
+    "keywords": [
+      "síntoma-16"
+    ],
+    "titulo": "Consejo para síntoma-16",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 16.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-16"
+  },
+  {
+    "keywords": [
+      "síntoma-17"
+    ],
+    "titulo": "Consejo para síntoma-17",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 17.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-17"
+  },
+  {
+    "keywords": [
+      "síntoma-18"
+    ],
+    "titulo": "Consejo para síntoma-18",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 18.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-18"
+  },
+  {
+    "keywords": [
+      "síntoma-19"
+    ],
+    "titulo": "Consejo para síntoma-19",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 19.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-19"
+  },
+  {
+    "keywords": [
+      "síntoma-20"
+    ],
+    "titulo": "Consejo para síntoma-20",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 20.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-20"
+  },
+  {
+    "keywords": [
+      "síntoma-21"
+    ],
+    "titulo": "Consejo para síntoma-21",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 21.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-21"
+  },
+  {
+    "keywords": [
+      "síntoma-22"
+    ],
+    "titulo": "Consejo para síntoma-22",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 22.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-22"
+  },
+  {
+    "keywords": [
+      "síntoma-23"
+    ],
+    "titulo": "Consejo para síntoma-23",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 23.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-23"
+  },
+  {
+    "keywords": [
+      "síntoma-24"
+    ],
+    "titulo": "Consejo para síntoma-24",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 24.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-24"
+  },
+  {
+    "keywords": [
+      "síntoma-25"
+    ],
+    "titulo": "Consejo para síntoma-25",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 25.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-25"
+  },
+  {
+    "keywords": [
+      "síntoma-26"
+    ],
+    "titulo": "Consejo para síntoma-26",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 26.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-26"
+  },
+  {
+    "keywords": [
+      "síntoma-27"
+    ],
+    "titulo": "Consejo para síntoma-27",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 27.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-27"
+  },
+  {
+    "keywords": [
+      "síntoma-28"
+    ],
+    "titulo": "Consejo para síntoma-28",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 28.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-28"
+  },
+  {
+    "keywords": [
+      "síntoma-29"
+    ],
+    "titulo": "Consejo para síntoma-29",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 29.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-29"
+  },
+  {
+    "keywords": [
+      "síntoma-30"
+    ],
+    "titulo": "Consejo para síntoma-30",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 30.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-30"
+  },
+  {
+    "keywords": [
+      "síntoma-31"
+    ],
+    "titulo": "Consejo para síntoma-31",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 31.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-31"
+  },
+  {
+    "keywords": [
+      "síntoma-32"
+    ],
+    "titulo": "Consejo para síntoma-32",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 32.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-32"
+  },
+  {
+    "keywords": [
+      "síntoma-33"
+    ],
+    "titulo": "Consejo para síntoma-33",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 33.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-33"
+  },
+  {
+    "keywords": [
+      "síntoma-34"
+    ],
+    "titulo": "Consejo para síntoma-34",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 34.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-34"
+  },
+  {
+    "keywords": [
+      "síntoma-35"
+    ],
+    "titulo": "Consejo para síntoma-35",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 35.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-35"
+  },
+  {
+    "keywords": [
+      "síntoma-36"
+    ],
+    "titulo": "Consejo para síntoma-36",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 36.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-36"
+  },
+  {
+    "keywords": [
+      "síntoma-37"
+    ],
+    "titulo": "Consejo para síntoma-37",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 37.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-37"
+  },
+  {
+    "keywords": [
+      "síntoma-38"
+    ],
+    "titulo": "Consejo para síntoma-38",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 38.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-38"
+  },
+  {
+    "keywords": [
+      "síntoma-39"
+    ],
+    "titulo": "Consejo para síntoma-39",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 39.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-39"
+  },
+  {
+    "keywords": [
+      "síntoma-40"
+    ],
+    "titulo": "Consejo para síntoma-40",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 40.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-40"
+  },
+  {
+    "keywords": [
+      "síntoma-41"
+    ],
+    "titulo": "Consejo para síntoma-41",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 41.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-41"
+  },
+  {
+    "keywords": [
+      "síntoma-42"
+    ],
+    "titulo": "Consejo para síntoma-42",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 42.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-42"
+  },
+  {
+    "keywords": [
+      "síntoma-43"
+    ],
+    "titulo": "Consejo para síntoma-43",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 43.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-43"
+  },
+  {
+    "keywords": [
+      "síntoma-44"
+    ],
+    "titulo": "Consejo para síntoma-44",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 44.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-44"
+  },
+  {
+    "keywords": [
+      "síntoma-45"
+    ],
+    "titulo": "Consejo para síntoma-45",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 45.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-45"
+  },
+  {
+    "keywords": [
+      "síntoma-46"
+    ],
+    "titulo": "Consejo para síntoma-46",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 46.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-46"
+  },
+  {
+    "keywords": [
+      "síntoma-47"
+    ],
+    "titulo": "Consejo para síntoma-47",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 47.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-47"
+  },
+  {
+    "keywords": [
+      "síntoma-48"
+    ],
+    "titulo": "Consejo para síntoma-48",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 48.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-48"
+  },
+  {
+    "keywords": [
+      "síntoma-49"
+    ],
+    "titulo": "Consejo para síntoma-49",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 49.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-49"
+  },
+  {
+    "keywords": [
+      "síntoma-50"
+    ],
+    "titulo": "Consejo para síntoma-50",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 50.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-50"
+  },
+  {
+    "keywords": [
+      "síntoma-51"
+    ],
+    "titulo": "Consejo para síntoma-51",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 51.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-51"
+  },
+  {
+    "keywords": [
+      "síntoma-52"
+    ],
+    "titulo": "Consejo para síntoma-52",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 52.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-52"
+  },
+  {
+    "keywords": [
+      "síntoma-53"
+    ],
+    "titulo": "Consejo para síntoma-53",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 53.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-53"
+  },
+  {
+    "keywords": [
+      "síntoma-54"
+    ],
+    "titulo": "Consejo para síntoma-54",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 54.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-54"
+  },
+  {
+    "keywords": [
+      "síntoma-55"
+    ],
+    "titulo": "Consejo para síntoma-55",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 55.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-55"
+  },
+  {
+    "keywords": [
+      "síntoma-56"
+    ],
+    "titulo": "Consejo para síntoma-56",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 56.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-56"
+  },
+  {
+    "keywords": [
+      "síntoma-57"
+    ],
+    "titulo": "Consejo para síntoma-57",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 57.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-57"
+  },
+  {
+    "keywords": [
+      "síntoma-58"
+    ],
+    "titulo": "Consejo para síntoma-58",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 58.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-58"
+  },
+  {
+    "keywords": [
+      "síntoma-59"
+    ],
+    "titulo": "Consejo para síntoma-59",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 59.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-59"
+  },
+  {
+    "keywords": [
+      "síntoma-60"
+    ],
+    "titulo": "Consejo para síntoma-60",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 60.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-60"
+  },
+  {
+    "keywords": [
+      "síntoma-61"
+    ],
+    "titulo": "Consejo para síntoma-61",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 61.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-61"
+  },
+  {
+    "keywords": [
+      "síntoma-62"
+    ],
+    "titulo": "Consejo para síntoma-62",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 62.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-62"
+  },
+  {
+    "keywords": [
+      "síntoma-63"
+    ],
+    "titulo": "Consejo para síntoma-63",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 63.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-63"
+  },
+  {
+    "keywords": [
+      "síntoma-64"
+    ],
+    "titulo": "Consejo para síntoma-64",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 64.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-64"
+  },
+  {
+    "keywords": [
+      "síntoma-65"
+    ],
+    "titulo": "Consejo para síntoma-65",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 65.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-65"
+  },
+  {
+    "keywords": [
+      "síntoma-66"
+    ],
+    "titulo": "Consejo para síntoma-66",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 66.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-66"
+  },
+  {
+    "keywords": [
+      "síntoma-67"
+    ],
+    "titulo": "Consejo para síntoma-67",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 67.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-67"
+  },
+  {
+    "keywords": [
+      "síntoma-68"
+    ],
+    "titulo": "Consejo para síntoma-68",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 68.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-68"
+  },
+  {
+    "keywords": [
+      "síntoma-69"
+    ],
+    "titulo": "Consejo para síntoma-69",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 69.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-69"
+  },
+  {
+    "keywords": [
+      "síntoma-70"
+    ],
+    "titulo": "Consejo para síntoma-70",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 70.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-70"
+  },
+  {
+    "keywords": [
+      "síntoma-71"
+    ],
+    "titulo": "Consejo para síntoma-71",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 71.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-71"
+  },
+  {
+    "keywords": [
+      "síntoma-72"
+    ],
+    "titulo": "Consejo para síntoma-72",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 72.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-72"
+  },
+  {
+    "keywords": [
+      "síntoma-73"
+    ],
+    "titulo": "Consejo para síntoma-73",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 73.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-73"
+  },
+  {
+    "keywords": [
+      "síntoma-74"
+    ],
+    "titulo": "Consejo para síntoma-74",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 74.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-74"
+  },
+  {
+    "keywords": [
+      "síntoma-75"
+    ],
+    "titulo": "Consejo para síntoma-75",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 75.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-75"
+  },
+  {
+    "keywords": [
+      "síntoma-76"
+    ],
+    "titulo": "Consejo para síntoma-76",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 76.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-76"
+  },
+  {
+    "keywords": [
+      "síntoma-77"
+    ],
+    "titulo": "Consejo para síntoma-77",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 77.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-77"
+  },
+  {
+    "keywords": [
+      "síntoma-78"
+    ],
+    "titulo": "Consejo para síntoma-78",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 78.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-78"
+  },
+  {
+    "keywords": [
+      "síntoma-79"
+    ],
+    "titulo": "Consejo para síntoma-79",
+    "detalle": "Este es un consejo clínico útil y realista para el caso de síntoma 79.",
+    "link": "https://www.ejemplo-consejo.com/síntoma-79"
+  }
+]

@@ -1,6 +1,7 @@
 export function FloralBackground() {
   return (
-    <div className="absolute inset-0 overflow-hidden opacity-20">
+    <div className="absolute inset-0 overflow-hidden opacity-20 z-0">
+
       <div className="absolute top-0 left-0 w-32 h-32">
         <svg viewBox="0 0 100 100" className="w-full h-full text-pink-400">
           <path
