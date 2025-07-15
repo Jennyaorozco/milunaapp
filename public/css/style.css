@@ -1,0 +1,116 @@
+/* Estilos generales del body con imagen de fondo */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: url('/img/fondo.png') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Contenedor del formulario */
+.login-container {
+  background-color:#FFC5D3(255, 255, 255, 0.95); /* Fondo blanco semi-transparente */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Logo */
+.logo {
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+/* Título */
+h1 {
+  color: #800080;
+  margin-bottom: 20px;
+}
+
+/* Campos de texto */
+input[type="email"],
+input[type="password"] {
+  width: 90%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+/* Efecto al enfocar */
+input[type="email"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #800080;
+  box-shadow: 0 0 5px rgba(128, 0, 128, 0.5);
+}
+
+/* Botón */
+button {
+  background-color: #800080;
+  color: white;
+  padding: 12px 24px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #a020f0;
+}
+
+/* Párrafos */
+p {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* Enlaces */
+a {
+  color: #800080;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Etiquetas */
+label {
+  display: block;
+  text-align: left;
+  margin: 10px 0 5px 5%;
+  color: #333;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+  .login-container {
+    padding: 20px;
+  }
+
+  input[type="email"],
+  input[type="password"],
+  button {
+    font-size: 14px;
+  }
+
+  label {
+    font-size: 13px;
+  }
+}
+
