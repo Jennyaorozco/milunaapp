@@ -2,10 +2,10 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { MiLunaLogo } from '@/components/mi_luna_logo';
-import { FloralBackground } from '@/components/floral_background';
+import { MiLunaLogo } from '../../components/mi_luna_logo';
+import { FloralBackground } from '../../components/floral_background';
 import { useEffect, useState } from 'react';
-import { RecordatorioCard } from '@/components/RecordatorioCard';
+import { RecordatorioCard } from '../../components/RecordatorioCard';
 
 interface Recordatorio {
   id?: number;

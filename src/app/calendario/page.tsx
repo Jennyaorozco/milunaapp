@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import Link from 'next/link'
-import { MiLunaLogo } from '@/components/mi_luna_logo'
+import { MiLunaLogo } from '../../components/mi_luna_logo'
 
 export default function CalendarioMenstrual() {
   const router = useRouter()

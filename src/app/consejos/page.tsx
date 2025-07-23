@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { MiLunaLogo } from '@/components/mi_luna_logo'
-import { FloralBackground } from '@/components/floral_background'
+import { MiLunaLogo } from '../../components/mi_luna_logo'
+import { FloralBackground } from '../../components/floral_background'
 
 // ✅ Importa el JSON desde la carpeta local
 import condicionesCategorias from './ciclo_menstrual_full.json'

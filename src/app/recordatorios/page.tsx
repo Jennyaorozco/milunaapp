@@ -2,9 +2,9 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { MiLunaLogo } from '@/components/mi_luna_logo';
-import { FloralBackground } from '@/components/floral_background';
-import { RecordatorioCard } from '@/components/RecordatorioCard';
+import { MiLunaLogo } from '../../components/mi_luna_logo';
+import { FloralBackground } from '../../components/floral_background';
+import { RecordatorioCard } from '../../components/RecordatorioCard';
 import { useEffect, useState, FormEvent } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';

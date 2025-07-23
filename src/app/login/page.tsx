@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { MiLunaLogo } from '@/components/mi_luna_logo'
+import { MiLunaLogo } from '../../components/mi_luna_logo'
 
 export default function LoginPage() {
   const router = useRouter()
