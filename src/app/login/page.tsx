@@ -2,19 +2,22 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { MiLunaLogo } from '../../components/mi_luna_logo'
+import { MiLunaLogo } from '@/components/mi_luna_logo'
+import { FormCard } from '@/components/FormCard'
+import { FormInput } from '@/components/FormInput'
+import { PinkButton } from '@/components/PinkButton'
+import { PinkLink } from '@/components/PinkLink'
 
 export default function LoginPage() {
-  const router = useRouter()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const router = useRouter()
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
+    setError('')
 
-    // ✅ Clave corregida: 'usuarios' (no 'users')
     const users = JSON.parse(localStorage.getItem('usuarios') || '[]')
     const user = users.find(
       (u: any) => u.username === username && u.password === password
@@ -30,52 +33,47 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-br from-pink-100 to-pink-200 px-4">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm text-center">
-        <MiLunaLogo size="medium" />
-
-        <h2 className="text-2xl font-bold text-pink-700 mt-4 mb-6">Inicia sesión</h2>
-
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 text-left">
-          <div>
-            <label className="text-sm text-gray-700">Usuario</label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="text-sm text-gray-700">Contraseña</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-400"
-              required
-            />
-          </div>
-
-          {error && <p className="text-red-600 text-sm">{error}</p>}
-
-          <button
-            type="submit"
-            className="bg-pink-600 text-white py-2 rounded-md hover:bg-pink-700 transition"
-          >
-            Iniciar sesión
-          </button>
-        </form>
-
-        <p className="text-sm text-gray-600 mt-6">
-          ¿No tienes cuenta?{' '}
-          <Link href="/register" className="text-pink-700 hover:underline font-medium">
-            Regístrate
-          </Link>
-        </p>
+    <FormCard>
+      {/* Logo */}
+      <div className="flex flex-col items-center justify-center gap-2 mb-6">
+        <MiLunaLogo size="large" stacked className="text-pink-600" />
+        <h1 className="text-2xl font-extrabold text-center mt-2 mb-6" style={{ color: 'rgb(31,41,55)' }}>Login Form</h1>
       </div>
-    </main>
+      
+      <form onSubmit={handleLogin} className="flex flex-col gap-4 pt-2">
+        <FormInput
+          type="text"
+          placeholder="Usuario"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+        />
+        
+        <FormInput
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-lg p-2 my-2">
+            <p className="text-red-600 text-sm">{error}</p>
+          </div>
+        )}
+
+        <PinkButton type="submit">
+          LOGIN
+        </PinkButton>
+      </form>
+
+      <p className="mt-4 text-sm text-gray-600">
+        ¿No tienes cuenta?{' '}
+        <PinkLink href="/register">
+          Regístrate ahora
+        </PinkLink>
+      </p>
+    </FormCard>
   )
 }
