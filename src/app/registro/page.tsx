@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { MiLunaLogo } from "../../components/mi-luna-logo"
-import { FloralBackground } from "../../components/floral-background"
+import { MiLunaLogo } from "../../components/mi_luna_logo"
+import { FloralBackground } from "../../components/floral_background"
 
 export default function Registro() {
   return (
