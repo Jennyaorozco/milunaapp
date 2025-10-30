@@ -1,31 +1,433 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Miss+Fajardose&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meddon&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'react-calendar/dist/Calendar.css';
+
+/* Importación de fuentes y Tailwind */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Miss+Fajardose&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meddon&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @import 'react-calendar/dist/Calendar.css';
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 240, 245;
-  --background-end-rgb: 255, 228, 240;
+  --foreground-rgb: 75, 85, 99;
+  --background-start-rgb: 255, 245, 250;
+  --background-end-rgb: 255, 240, 245;
+  --primary-pink: 236, 72, 153;
+  --secondary-pink: 244, 114, 182;
+  --accent-pink: 251, 207, 232;
+  --soft-pink: 252, 231, 243;
+  --deep-pink: 190, 24, 93;
+}
+
+/* Variables CSS para colores principales */
+:root {
+  --foreground-rgb: 75, 85, 99;
+  --background-start-rgb: 255, 245, 250;
+  --background-end-rgb: 255, 240, 245;
+  --primary-pink: 236, 72, 153;
+  --secondary-pink: 244, 114, 182;
+  --accent-pink: 251, 207, 232;
+  --soft-pink: 252, 231, 243;
+  --deep-pink: 190, 24, 93;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Box sizing global */
+* {
+  box-sizing: border-box;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background-image: url("/img/fondo.png");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-color: rgb(var(--background-start-rgb));
-  background-blend-mode: multiply; /* Mezcla el color y la imagen */
   margin: 0;
   padding: 0;
   min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos base del body */
+body {
+  color: rgb(var(--foreground-rgb));
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos personalizados para el calendario */
+.react-calendar {
+  @apply bg-white/90 backdrop-blur-sm border-0 rounded-2xl shadow-lg;
+}
+
+/* Calendario personalizado */
+.react-calendar {
+  @apply bg-white/90 backdrop-blur-sm border-0 rounded-2xl shadow-lg;
+}
+
+.react-calendar__tile {
+  @apply text-gray-700 hover:bg-pink-100 transition-colors duration-200;
+}
+
+.react-calendar__tile--active {
+  @apply bg-pink-500 text-white font-semibold rounded-full shadow-inner;
+}
+
+
+.react-calendar__tile--active,
+.react-calendar__tile--active:enabled,
+.react-calendar__tile--active:enabled:focus,
+.react-calendar__tile--active:enabled:hover {
+  background-color: #ec4899 !important; 
+  color: #ffffff !important;
+  border-radius: 9999px !important;
+  box-shadow: 0 8px 20px rgba(236,72,153,0.18) !important;
+  border: none !important;
+}
+
+
+.react-calendar__tile--active abbr {
+  color: #ffffff !important;
+}
+
+.react-calendar__tile--now {
+  @apply bg-pink-200 text-pink-800 font-semibold;
+}
+
+.react-calendar__navigation button {
+  @apply text-pink-600 hover:bg-pink-100;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  @apply text-pink-600 font-semibold;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animaciones para transiciones suaves */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.5s ease-out;
+}
+
+/* Efectos de glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.glass-pink {
+  background: rgba(251, 207, 232, 0.3);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(244, 114, 182, 0.2);
+}
+
+/* Botones con gradientes */
+.btn-gradient {
+  background: linear-gradient(135deg, rgb(236, 72, 153), rgb(244, 114, 182));
+  transition: all 0.3s ease;
+}
+
+/* Botones con gradiente */
+.btn-gradient {
+  background: linear-gradient(135deg, rgb(236, 72, 153), rgb(244, 114, 182));
+  transition: all 0.3s ease;
+}
+
+.btn-gradient:hover {
+  background: linear-gradient(135deg, rgb(190, 24, 93), rgb(236, 72, 153));
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(236, 72, 153, 0.3);
+}
+
+/* Cards con sombras suaves (neutras) */
+.card-soft {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+/* Tarjetas con sombra neutra */
+.card-soft {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.card-soft:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+}
+
+/* Estilos para inputs mejorados */
+.input-modern {
+  @apply w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 placeholder-gray-400;
+}
+
+/* Inputs modernos */
+.input-modern {
+  @apply w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 placeholder-gray-400;
+}
+
+.input-modern:focus {
+  @apply bg-white shadow-md;
+}
+
+/* Estilos para botones */
+.btn-modern {
+  @apply w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
+}
+
+/* Botones modernos */
+.btn-modern {
+  @apply w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105;
+}
+
+.btn-modern:active {
+  @apply transform scale-95;
+}
+
+/* Estilos para cards */
+.card-modern {
+  @apply bg-white rounded-2xl shadow-2xl p-8;
+}
+
+/* Card moderna */
+.card-modern {
+  @apply bg-white rounded-2xl shadow-2xl p-8;
+}
+
+/* Estilos para el logo */
+.logo-modern {
+  @apply flex items-center gap-3 font-bold text-pink-700;
+}
+
+/* Logo moderno */
+.logo-modern {
+  @apply flex items-center gap-3 font-bold text-pink-700;
+}
+
+/* Clase explícita para usar Miss Fajardose tal cual (Google Fonts)
+*/
+.miss-fajardose-regular {
+  font-family: 'Miss Fajardose', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Fuente Miss Fajardose */
+.miss-fajardose-regular {
+  font-family: 'Miss Fajardose', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Clase para Meddon (más fuerte que Miss Fajardose) */
+.meddon-regular {
+  font-family: 'Meddon', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Fuente Meddon */
+.meddon-regular {
+  font-family: 'Meddon', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Estilos para títulos */
+.title-modern {
+  @apply text-3xl font-bold text-gray-800 mb-2;
+}
+
+/* Títulos y subtítulos */
+.title-modern {
+  @apply text-3xl font-bold text-gray-800 mb-2;
+}
+
+.subtitle-modern {
+  @apply text-gray-600;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  .bg-gradient-feminine {
+    background: linear-gradient(135deg, 
+      rgb(255, 245, 250) 0%, 
+      rgb(255, 240, 245) 25%, 
+      rgb(252, 231, 243) 50%, 
+      rgb(251, 207, 232) 75%, 
+      rgb(244, 114, 182) 100%);
+  }
+  
+  .text-gradient-pink {
+    background: linear-gradient(135deg, rgb(236, 72, 153), rgb(244, 114, 182));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .font-inter {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  .menu-card-contrast {
+    @apply relative overflow-hidden rounded-3xl p-6 text-center transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 bg-white shadow-md;
+  }
+
+  .menu-card-accent-top {
+    @apply absolute left-6 right-6 top-4 h-1 rounded-t-xl opacity-95;
+  }
+
+  .menu-card-title {
+    @apply text-lg font-semibold text-gray-900 mb-1;
+  }
+
+  .menu-card-desc {
+    @apply text-sm text-gray-600;
+  }
+
+  .recordatorio-card-contrast {
+    @apply relative bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col items-center text-center text-sm max-w-[160px] min-h-[160px];
+  }
+
+  .recordatorio-card-contrast h3 {
+    @apply text-gray-800 font-medium text-sm;
+  }
+
+  .recordatorio-card-contrast p {
+    @apply text-gray-700 text-xs mt-2 break-words;
+  }
+}
+
+/* Utilidades personalizadas */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .bg-gradient-feminine {
+    background: linear-gradient(135deg, 
+      rgb(255, 245, 250) 0%, 
+      rgb(255, 240, 245) 25%, 
+      rgb(252, 231, 243) 50%, 
+      rgb(251, 207, 232) 75%, 
+      rgb(244, 114, 182) 100%);
+  }
+  
+  .text-gradient-pink {
+    background: linear-gradient(135deg, rgb(236, 72, 153), rgb(244, 114, 182));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .font-inter {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* Tarjeta menú con alto contraste */
+  .menu-card-contrast {
+    @apply relative overflow-hidden rounded-3xl p-6 text-center transition-all duration-300 transform hover:scale-105 hover:-translate-y-2 bg-white shadow-md;
+  }
+
+  .menu-card-accent-top {
+    @apply absolute left-6 right-6 top-4 h-1 rounded-t-xl opacity-95;
+  }
+
+  .menu-card-title {
+    @apply text-lg font-semibold text-gray-900 mb-1;
+  }
+
+  .menu-card-desc {
+    @apply text-sm text-gray-600;
+  }
+
+  /* Tarjeta pequeña de recordatorio */
+  .recordatorio-card-contrast {
+    @apply relative bg-gray-50 rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col items-center text-center text-sm max-w-[160px] min-h-[160px];
+  }
+
+  .recordatorio-card-contrast h3 {
+    @apply text-gray-800 font-medium text-sm;
+  }
+
+  .recordatorio-card-contrast p {
+    @apply text-gray-700 text-xs mt-2 break-words;
   }
 }
 

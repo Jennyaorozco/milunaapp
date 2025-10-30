@@ -1,2 +1,0 @@
-# milunaapp
-pagina web

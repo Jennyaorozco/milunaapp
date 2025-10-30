@@ -3,99 +3,134 @@
 import { useState, useEffect } from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
-import { addDays, format } from 'date-fns'
+import Link from 'next/link'
+import { MiLunaLogo } from '../../components/mi_luna_logo'
+import { Calendar as LucideCalendar, Droplet, Moon, Lightbulb } from 'lucide-react'
 
-const STORAGE_KEY = 'menstrualCycleData'
+export default function CalendarioMenstrual() {
+  const router = useRouter()
+  const [fechaInicio, setFechaInicio] = useState<Date | null>(new Date())
+  const [duracionPeriodo, setDuracionPeriodo] = useState(5)
+  const [duracionCiclo, setDuracionCiclo] = useState(28)
 
-type CycleData = {
-  startDate: string | null
-  cycleLength: number
-  periodLength: number
-}
+  const handleSiguiente = () => {
+    localStorage.setItem('fechaInicio', fechaInicio?.toISOString() || '')
+    localStorage.setItem('duracionPeriodo', duracionPeriodo.toString())
+    localStorage.setItem('duracionCiclo', duracionCiclo.toString())
+    router.push('/sintomas')
+  }
 
-export default function CalendarioPage() {
-  const [startDate, setStartDate] = useState<Date | null>(null)
-  const [cycleLength, setCycleLength] = useState(28)
-  const [periodLength, setPeriodLength] = useState(5)
+  const cerrarSesion = () => {
+    localStorage.clear();
+    window.location.href = '/login';
+  };
 
-  // Al cargar, leer datos guardados
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      const data: CycleData = JSON.parse(stored)
-      if (data.startDate) setStartDate(new Date(data.startDate))
-      if (data.cycleLength) setCycleLength(data.cycleLength)
-      if (data.periodLength) setPeriodLength(data.periodLength)
-    }
-  }, [])
+  return (
+    <main className="min-h-screen bg-gray-50 relative overflow-hidden">
 
-  // Guardar en localStorage cada vez que cambien los datos
-  useEffect(() => {
-    const data: CycleData = {
-      startDate: startDate ? startDate.toISOString() : null,
-      cycleLength,
-      periodLength,
-    }
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  }, [startDate, cycleLength, periodLength])
-
-  const predictedNextCycle = startDate ? addDays(startDate, cycleLength) : null
-  const ovulationDate = predictedNextCycle ? addDays(predictedNextCycle, -14) : null
-  const fertileWindowStart = ovulationDate ? addDays(ovulationDate, -5) : null
-  const fertileWindowEnd = ovulationDate ? addDays(ovulationDate, 1) : null
-
-return (
-  <main className="min-h-screen bg-pink-50 py-10 px-4">
-    <button
-      onClick={() => window.history.back()}
-      className="mb-4 bg-pink-100 text-pink-700 hover:bg-pink-200 font-semibold py-2 px-4 rounded inline-flex items-center"
-    >
-      ← Atrás
-    </button>
-
-    <div className="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
-      <h1 className="text-3xl font-bold text-pink-600 mb-4">📅 Calendario Menstrual</h1>
-        <p className="mb-4 text-pink-700">
-          Selecciona la fecha de inicio de tu último ciclo menstrual:
-        </p>
-
-        <div className="mb-6">
-          <Calendar onChange={setStartDate} value={startDate} />
+      {/* Topbar */}
+      <header className="w-full bg-pink-700 text-white py-3 shadow-sm z-20">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+          <Link href="/menu" className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Atrás
+          </Link>
+          <MiLunaLogo size="small" className="text-white" />
+          <button onClick={cerrarSesion} className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all">Cerrar sesión</button>
         </div>
+      </header>
 
-        <label className="block mb-4 text-pink-700">
-          Duración promedio de tu periodo (días):
-          <input
-            type="number"
-            min={1}
-            max={10}
-            value={periodLength}
-            onChange={(e) => setPeriodLength(Number(e.target.value))}
-            className="ml-2 border rounded px-2 py-1"
-          />
-        </label>
+      {/* Banner rosado */}
+      <section className="w-full bg-pink-200 py-8">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <h1 className="text-3xl font-bold text-pink-700">Mi Calendario Lunar</h1>
+          <p className="text-sm text-gray-700 mt-2">Selecciona la fecha de inicio de tu último ciclo menstrual</p>
+        </div>
+      </section>
 
-        <label className="block mb-6 text-pink-700">
-          Duración promedio del ciclo (días):
-          <input
-            type="number"
-            min={21}
-            max={35}
-            value={cycleLength}
-            onChange={(e) => setCycleLength(Number(e.target.value))}
-            className="ml-2 border rounded px-2 py-1"
-          />
-        </label>
+      <div className="relative z-10 flex flex-col items-center px-4 py-12">
+        <div className="w-full max-w-6xl">
+          {/* Contenido principal */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Calendario */}
+            <div className="glass-pink rounded-3xl p-8 card-soft animate-fadeInUp shadow-2xl">
+              <div className="text-center mb-4">
+                <div className="flex items-center justify-center mb-2">
+                  <LucideCalendar className="w-6 h-6 text-pink-600 mr-2" />
+                  <h2 className="text-xl font-semibold text-pink-700">Mi Calendario Lunar</h2>
+                </div>
+                <p className="text-gray-600">Selecciona la fecha de inicio de tu último ciclo menstrual</p>
+              </div>
 
-        {startDate && (
-          <div className="text-pink-700 space-y-2">
-            <p>🩸 Último ciclo: <strong>{format(startDate, 'dd MMMM yyyy')}</strong></p>
-            <p>🔮 Próximo ciclo estimado: <strong>{format(predictedNextCycle!, 'dd MMMM yyyy')}</strong></p>
-            <p>💞 Ventana fértil estimada: <strong>{format(fertileWindowStart!, 'dd MMM')} - {format(fertileWindowEnd!, 'dd MMM')}</strong></p>
-            <p>🌕 Ovulación estimada: <strong>{format(ovulationDate!, 'dd MMMM')}</strong></p>
-            <p>🛑 Duración del periodo: <strong>{periodLength} días</strong></p>
+              <div className="flex justify-center">
+                <Calendar
+                  onChange={(date) => setFechaInicio(date as Date)}
+                  value={fechaInicio}
+                  className="w-full max-w-sm"
+                />
+              </div>
+            </div>
+
+            {/* Configuración */}
+            <div className="glass-pink rounded-3xl p-8 card-soft animate-fadeInUp shadow-2xl" style={{ animationDelay: '0.2s' }}>
+              <h2 className="text-2xl font-bold text-pink-700 mb-6 text-center">Configura tu ciclo</h2>
+
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <Droplet className="w-4 h-4 text-pink-500" />
+                    Duración promedio de tu periodo (días)
+                  </label>
+                  <input
+                    type="number"
+                    value={duracionPeriodo}
+                    onChange={(e) => setDuracionPeriodo(Number(e.target.value))}
+                    className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200"
+                    min="1"
+                    max="10"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <Moon className="w-4 h-4 text-pink-500" />
+                    Duración promedio del ciclo (días)
+                  </label>
+                  <input
+                    type="number"
+                    value={duracionCiclo}
+                    onChange={(e) => setDuracionCiclo(Number(e.target.value))}
+                    className="w-full px-4 py-3 bg-white/80 backdrop-blur-sm border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200"
+                    min="21"
+                    max="35"
+                  />
+                </div>
+
+                {/* Información adicional */}
+                <div className="bg-pink-50 border border-pink-200 rounded-xl p-4">
+                  <h3 className="font-semibold text-pink-800 mb-2"><Lightbulb className="w-4 h-4 inline mr-2 text-pink-700" />Consejo</h3>
+                  <p className="text-sm text-pink-700">
+                    Un ciclo menstrual típico dura entre 21-35 días, con un periodo de 3-7 días. Estos datos nos ayudan a personalizar tu experiencia.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+          {/* Botón continuar  */}
+          <div className="flex justify-end w-full mt-12 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
+            <button
+              onClick={handleSiguiente}
+              className="btn-gradient text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+            >
+              Continuar
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </main>
   )
