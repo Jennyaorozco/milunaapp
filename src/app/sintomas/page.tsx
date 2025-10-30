@@ -6,12 +6,14 @@ import { MiLunaLogo } from '../../components/mi_luna_logo'
 import { FloralBackground } from '../../components/floral_background'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { format } from 'date-fns'
+import { es } from 'date-fns/locale' // ✅ nuevo
+
+const STORAGE_KEY = 'menstrualCycleData'
 
 export default function Sintomas() {
   const router = useRouter()
-
-  
 
   const categories = [
     {
@@ -48,14 +50,26 @@ export default function Sintomas() {
     emociones: '',
   })
 
+  const [startDate, setStartDate] = useState<Date | null>(null)
+
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      const data = JSON.parse(stored)
+      if (data.startDate) {
+        setStartDate(new Date(data.startDate))
+      }
+    }
+  }, [])
+
   const handleChange = (key: string, value: string) => {
     setFormData(prev => ({ ...prev, [key]: value }))
   }
 
   const handleGuardar = () => {
-  localStorage.setItem('misSintomas', JSON.stringify(formData));
-  router.push('/consejos');
-};
+    localStorage.setItem('misSintomas', JSON.stringify(formData))
+    router.push('/consejos')
+  }
 
   return (
     <main className="flex min-h-screen flex-col items-center pt-28 pb-16 px-4 bg-gradient-to-b from-white via-rose-100 to-pink-200 relative">
@@ -76,7 +90,28 @@ export default function Sintomas() {
         {/* Calendario */}
         <div className="w-full bg-white/95 rounded-2xl p-6 shadow-lg">
           <h2 className="text-xl font-bold text-pink-700 mb-4">Mi Mes Lunar</h2>
-          <Calendar />
+          <Calendar
+            locale="es" // ✅ nuevo
+            value={startDate}
+            tileDisabled={() => true}
+            tileClassName={({ date }) => {
+              if (
+                startDate &&
+                date.getDate() === startDate.getDate() &&
+                date.getMonth() === startDate.getMonth() &&
+                date.getFullYear() === startDate.getFullYear()
+              ) {
+                return 'react-calendar__tile--selected-custom'
+              }
+              return ''
+            }}
+          />
+          {startDate && (
+            <p className="text-pink-600 mt-2">
+              Fecha seleccionada:{' '}
+              <strong>{format(startDate, 'dd MMMM yyyy', { locale: es })}</strong>
+            </p>
+          )}
         </div>
 
         {/* Tarjetas de síntomas */}

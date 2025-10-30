@@ -8,6 +8,7 @@ import { RecordatorioCard } from '../../components/RecordatorioCard';
 import { useEffect, useState, FormEvent } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { format } from 'date-fns';
 
 interface Recordatorio {
   id?: number;
@@ -23,6 +24,7 @@ export default function Recordatorios() {
   const [mensaje, setMensaje] = useState('');
   const usuario = 'usuario1';
 
+  // ✅ Cargar recordatorios existentes
   const cargarRecordatorios = () => {
     fetch('/api/recordatorios')
       .then(res => res.json())
@@ -30,10 +32,16 @@ export default function Recordatorios() {
       .catch(console.error);
   };
 
+  // ✅ Cargar fecha desde localStorage si existe
   useEffect(() => {
+    const savedDate = localStorage.getItem('selectedDate');
+    if (savedDate) {
+      setFechaSeleccionada(new Date(savedDate));
+    }
     cargarRecordatorios();
   }, []);
 
+  // ✅ Guardar recordatorio
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const localDate = new Date(fechaSeleccionada.getTime() - fechaSeleccionada.getTimezoneOffset() * 60000)
@@ -106,7 +114,21 @@ export default function Recordatorios() {
               <Calendar
                 value={fechaSeleccionada}
                 selectRange={false}
-                onClickDay={(value: Date) => setFechaSeleccionada(value)}
+                onClickDay={(value: Date) => {
+                  setFechaSeleccionada(value);
+                  localStorage.setItem('selectedDate', value.toISOString()); // ✅ guardar selección
+                }}
+                tileClassName={({ date, view }) => {
+                  if (view === 'month') {
+                    const selected = new Date(fechaSeleccionada);
+                    return date.getFullYear() === selected.getFullYear() &&
+                      date.getMonth() === selected.getMonth() &&
+                      date.getDate() === selected.getDate()
+                      ? 'react-calendar__tile--selected-custom'
+                      : null;
+                  }
+                  return null;
+                }}
               />
             </div>
 

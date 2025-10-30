@@ -36,21 +36,15 @@ export default function MenuPage() {
       <FloralBackground />
 
       {/* Botón Cerrar Sesión en la esquina superior derecha */}
-
-
-
-<button
-  onClick={() => {
-    localStorage.clear()
-    window.location.href = '/login'
-  }}
-  className="self-end text-pink-600 hover:text-pink-800 transition font-semibold mb-4"
->
-  Cerrar sesión
-</button>
-
-
-
+      <button
+        onClick={() => {
+          localStorage.clear()
+          window.location.href = '/login'
+        }}
+        className="self-end text-pink-600 hover:text-pink-800 transition font-semibold mb-4"
+      >
+        Cerrar sesión
+      </button>
 
       <div className="z-10 flex flex-col items-center text-center px-6 py-20 w-full max-w-3xl space-y-20">
         <MiLunaLogo size="large" />
@@ -73,29 +67,28 @@ export default function MenuPage() {
           <li className="shadow-md bg-white/30 backdrop-blur-md py-6 px-12 rounded-2xl text-center">
             🌿 <Link href="/consejos" className="hover:underline">Consejos</Link>
           </li>
+          {/* 🚀 Nueva opción del chatbot */}
+          <li className="shadow-md bg-pink-50 backdrop-blur-md py-6 px-12 rounded-2xl text-center border border-pink-300">
+            🤖 <Link href="/chatbot" className="hover:underline text-pink-700">¡Consulta a tu asistente personal!</Link>
+          </li>
         </ul>
 
         {/* Espacio visible entre menú y recordatorios */}
-        <div className="h-12" /> {/* Puedes aumentar a h-40 o h-52 si quieres más separación */}
+        <div className="h-12" />
 
         {/* Mostrar tarjetas de recordatorios */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
           {recordatorios.filter(r => r.user === usuario).map((r, index) => (
             <RecordatorioCard
-  key={r.id || index}
-  id={r.id}
-  fecha={r.fecha}
-  mensaje={r.mensaje}
- 
-  editable={false}
-/>
-
-
+              key={r.id || index}
+              id={r.id}
+              fecha={r.fecha}
+              mensaje={r.mensaje}
+              editable={false}
+            />
           ))}
-          
         </div>
       </div>
     </main>
   );
 }
-
