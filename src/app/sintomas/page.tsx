@@ -2,17 +2,17 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState, useEffect } from 'react' // ✅ AGREGADO: useEffect
+import { useState, useEffect } from 'react'
 import { MiLunaLogo } from '../../components/mi_luna_logo'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
-import { Droplet, Thermometer, Sparkle, Heart, Moon, Save } from 'lucide-react'
-
-// ✅ AGREGADO: Constante para localStorage
-const STORAGE_KEY = 'miCalendario'
+import { Droplet, Thermometer, Sparkle, Heart, Moon, Save, Calendar as CalendarIcon } from 'lucide-react'
+import { useCalendario } from '../../contexts/CalendarioContext' // ✅ NUEVO
+import InfoCalendario from '../../components/InfoCalendario' // ✅ NUEVO
 
 export default function Sintomas() {
   const router = useRouter()
+  const { calendario } = useCalendario() // ✅ USAR CONTEXTO
 
   const categories = [
     {
@@ -60,18 +60,6 @@ export default function Sintomas() {
     emociones: '',
   })
 
-  const [startDate, setStartDate] = useState<Date | null>(null)
-
-  useEffect(() => {
-    const stored = localStorage.getItem(STORAGE_KEY)
-    if (stored) {
-      const data = JSON.parse(stored)
-      if (data.startDate) {
-        setStartDate(new Date(data.startDate))
-      }
-    }
-  }, [])
-
   const handleChange = (key: string, value: string) => {
     setFormData(prev => ({ ...prev, [key]: value }))
   }
@@ -114,27 +102,34 @@ export default function Sintomas() {
       <div className="relative z-10 flex flex-col items-center px-4 py-12">
         <div className="w-full max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-            {/* Calendario */}
-            <div className="lg:col-span-1">
-              <div className="glass-pink rounded-3xl p-6 card-soft animate-fadeInUp shadow-2xl">
-                <h2 className="text-2xl font-bold text-pink-700 mb-6 text-center flex items-center justify-center gap-2">
-                  <Moon className="w-7 h-7 text-pink-500" />
-                  Mi Mes Lunar
+            {/* ✅ COLUMNA IZQUIERDA: Info del Calendario + Calendario Visual */}
+            <div className="lg:col-span-1 space-y-6">
+              {/* Información del calendario persistente */}
+              <InfoCalendario />
+
+              {/* Calendario visual */}
+              <div className="glass-pink rounded-3xl p-6 card-soft animate-fadeInUp shadow-2xl" style={{ animationDelay: '0.1s' }}>
+                <h2 className="text-xl font-bold text-pink-700 mb-4 text-center flex items-center justify-center gap-2">
+                  <CalendarIcon className="w-5 h-5 text-pink-500" />
+                  Vista del Mes
                 </h2>
                 <div className="rounded-2xl p-2 bg-white">
-                  <Calendar className="w-full" value={startDate} />
+                  <Calendar 
+                    className="w-full" 
+                    value={calendario.fechaInicio || new Date()} 
+                  />
                 </div>
               </div>
             </div>
 
-            {/* Formulario de síntomas */}
+            {/* ✅ COLUMNA DERECHA: Formulario de síntomas */}
             <div className="lg:col-span-2">
               <div className="space-y-6">
                 {categories.map((category, index) => (
                   <div
                     key={category.key}
                     className={`glass-pink rounded-3xl p-6 card-soft animate-fadeInUp shadow-2xl border-l-4 border-pink-300 hover:border-pink-400 transition-all duration-300`}
-                    style={{ animationDelay: `${index * 0.1}s` }}
+                    style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
                   >
                     <div className="flex items-center gap-4 mb-4">
                       <div className={`text-3xl p-3 rounded-full bg-gradient-to-r ${category.color} text-white shadow-lg flex items-center justify-center`}>

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { MiLunaLogo } from '../../components/mi_luna_logo'
 import { Lightbulb, ArrowLeft, Home, Sparkles, Brain, Loader2, Calendar, Heart, Droplet, Activity } from 'lucide-react'
 import { useCalendario } from '../../contexts/CalendarioContext'
-
+import DescargarReporte from '../../components/DescargarReporte' // ✅ NUEVO
 import condicionesCategorias from './ciclo_menstrual_full.json'
 
 interface Condicion {
@@ -204,7 +204,6 @@ export default function ConsejosPage() {
     const consejos: Consejo[] = []
     const sintomasLower = sintomas.toLowerCase()
 
-    // Cólicos/Dolor
     if (sintomasLower.includes('cólico') || sintomasLower.includes('dolor') || sintomasLower.includes('calambre')) {
       consejos.push({
         titulo: '💊 Manejo de Cólicos',
@@ -222,7 +221,6 @@ export default function ConsejosPage() {
       })
     }
 
-    // Hinchazón/Retención
     if (sintomasLower.includes('hinchazón') || sintomasLower.includes('hinchada') || sintomasLower.includes('retención') || sintomasLower.includes('inflamada')) {
       consejos.push({
         titulo: '💧 Reducir Hinchazón',
@@ -240,7 +238,6 @@ export default function ConsejosPage() {
       })
     }
 
-    // Dolor de cabeza/Migraña
     if (sintomasLower.includes('dolor de cabeza') || sintomasLower.includes('migraña') || sintomasLower.includes('cefalea')) {
       consejos.push({
         titulo: '🧠 Alivio de Dolor de Cabeza',
@@ -258,7 +255,6 @@ export default function ConsejosPage() {
       })
     }
 
-    // Fatiga/Cansancio
     if (sintomasLower.includes('cansancio') || sintomasLower.includes('fatiga') || sintomasLower.includes('agotamiento') || sintomasLower.includes('sueño')) {
       consejos.push({
         titulo: '😴 Combatir la Fatiga',
@@ -284,7 +280,6 @@ export default function ConsejosPage() {
     const consejos: Consejo[] = []
     const emocionesLower = emociones.toLowerCase()
 
-    // Tristeza/Depresión
     if (emocionesLower.includes('tristeza') || emocionesLower.includes('triste') || emocionesLower.includes('deprimida') || emocionesLower.includes('llorar')) {
       consejos.push({
         titulo: '💙 Cuidado Emocional - Tristeza',
@@ -303,7 +298,6 @@ export default function ConsejosPage() {
       })
     }
 
-    // Ansiedad/Nerviosismo
     if (emocionesLower.includes('ansiedad') || emocionesLower.includes('ansiosa') || emocionesLower.includes('nerviosa') || emocionesLower.includes('preocupada')) {
       consejos.push({
         titulo: '🧘‍♀️ Manejo de Ansiedad',
@@ -322,7 +316,6 @@ export default function ConsejosPage() {
       })
     }
 
-    // Irritabilidad/Enojo
     if (emocionesLower.includes('irritable') || emocionesLower.includes('enojada') || emocionesLower.includes('frustrada') || emocionesLower.includes('molesta')) {
       consejos.push({
         titulo: '🔥 Gestión de Irritabilidad',
@@ -341,7 +334,6 @@ export default function ConsejosPage() {
       })
     }
 
-    // Sensibilidad emocional
     if (emocionesLower.includes('sensible') || emocionesLower.includes('vulnerable') || emocionesLower.includes('emocional')) {
       consejos.push({
         titulo: '🌸 Honrar tu Sensibilidad',
@@ -368,7 +360,6 @@ export default function ConsejosPage() {
     const consejos: Consejo[] = []
     const flujoLower = flujo.toLowerCase()
 
-    // Flujo abundante
     if (flujoLower.includes('abundante') || flujoLower.includes('mucho') || flujoLower.includes('excesivo')) {
       consejos.push({
         titulo: '🩸 Flujo Abundante',
@@ -386,7 +377,6 @@ export default function ConsejosPage() {
       })
     }
 
-    // Flujo con coágulos
     if (flujoLower.includes('coágulo') || flujoLower.includes('grumo')) {
       consejos.push({
         titulo: '🔴 Coágulos en el Flujo',
@@ -398,7 +388,7 @@ export default function ConsejosPage() {
 • Pueden indicar desequilibrio hormonal o fibromas
 • Lleva registro de su frecuencia y tamaño para tu ginecólogo`,
         tipo: 'local',
-        icono: <Activity className="w:7 h-7 text-white" />,
+        icono: <Activity className="w-7 h-7 text-white" />,
         color: 'from-rose-500 to-red-600'
       })
     }
@@ -406,7 +396,7 @@ export default function ConsejosPage() {
     return consejos
   }
 
-  // ✅ FUNCIÓN: Analizar con Gemini (mantener igual)
+  // ✅ FUNCIÓN: Analizar con Gemini
   const analizarConGemini = async () => {
     setLoadingGemini(true)
     
@@ -515,6 +505,40 @@ Genera una respuesta completa y personalizada:`;
       <div className="relative z-10 flex flex-col items-center px-4 py-12">
         <div className="w-full max-w-6xl">
           
+          {/* ✅ NUEVO: Sección de Descargar Reporte PDF */}
+          <div className="mb-12 animate-fadeInUp border-2 border-purple-300 rounded-3xl p-8 bg-gradient-to-r from-purple-50 to-pink-50 shadow-xl">
+            <div className="flex items-start gap-4 mb-6">
+              <div className="flex-shrink-0">
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+              </div>
+              <div className="flex-1">
+                <h3 className="text-2xl font-bold text-purple-700 mb-2">
+                  📊 Genera tu Reporte Personalizado
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Descarga un PDF completo con toda tu información de ciclo menstrual, síntomas registrados, 
+                  fase actual y recomendaciones personalizadas. Perfecto para compartir con tu médico o llevar 
+                  un registro histórico de tu salud.
+                </p>
+                <div className="bg-white rounded-xl p-4 mb-4">
+                  <p className="text-sm text-gray-600 mb-2"><strong>El reporte incluye:</strong></p>
+                  <ul className="text-sm text-gray-600 space-y-1 ml-4">
+                    <li>✅ Información completa de tu ciclo menstrual</li>
+                    <li>✅ Fase actual y próximo período estimado</li>
+                    <li>✅ Síntomas físicos y emocionales registrados</li>
+                    <li>✅ Recomendaciones personalizadas según tu fase</li>
+                    <li>✅ Consejos de autocuidado y bienestar</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <DescargarReporte />
+          </div>
+
           {/* ✅ Botón de Análisis con IA */}
           {!geminiAnalizado && (
             <div className="glass-pink rounded-3xl p-8 card-soft shadow-2xl mb-8 animate-fadeInUp border-2 border-purple-300">
