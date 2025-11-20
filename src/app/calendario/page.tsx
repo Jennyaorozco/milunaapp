@@ -1,23 +1,36 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import Link from 'next/link'
 import { MiLunaLogo } from '../../components/mi_luna_logo'
 import { Calendar as LucideCalendar, Droplet, Moon, Lightbulb } from 'lucide-react'
+import { useCalendario } from '../../contexts/CalendarioContext' // ✅ NUEVO
 
 export default function CalendarioMenstrual() {
   const router = useRouter()
+  const { calendario, actualizarCalendario } = useCalendario() // ✅ USAR CONTEXTO
+  
   const [fechaInicio, setFechaInicio] = useState<Date | null>(new Date())
   const [duracionPeriodo, setDuracionPeriodo] = useState(5)
   const [duracionCiclo, setDuracionCiclo] = useState(28)
 
+  // ✅ Cargar datos existentes del contexto al montar
+  useEffect(() => {
+    if (calendario.fechaInicio) {
+      setFechaInicio(calendario.fechaInicio)
+      setDuracionPeriodo(calendario.duracionPeriodo)
+      setDuracionCiclo(calendario.duracionCiclo)
+    }
+  }, [calendario])
+
   const handleSiguiente = () => {
-    localStorage.setItem('fechaInicio', fechaInicio?.toISOString() || '')
-    localStorage.setItem('duracionPeriodo', duracionPeriodo.toString())
-    localStorage.setItem('duracionCiclo', duracionCiclo.toString())
+    if (fechaInicio) {
+      // ✅ Guardar en contexto global (también guarda en localStorage automáticamente)
+      actualizarCalendario(fechaInicio, duracionPeriodo, duracionCiclo)
+    }
     router.push('/sintomas')
   }
 
@@ -123,7 +136,8 @@ export default function CalendarioMenstrual() {
           <div className="flex justify-end w-full mt-12 animate-fadeInUp" style={{ animationDelay: '0.4s' }}>
             <button
               onClick={handleSiguiente}
-              className="btn-gradient text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+              disabled={!fechaInicio}
+              className="btn-gradient text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Continuar
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

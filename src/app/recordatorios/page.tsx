@@ -8,6 +8,7 @@ import { useEffect, useState, FormEvent } from 'react';
 import Calendar from 'react-calendar';
 import { Calendar as LucideCalendar, MessageSquare, FileText, PlusSquare } from 'lucide-react';
 import 'react-calendar/dist/Calendar.css';
+import { format } from 'date-fns';
 
 interface Recordatorio {
   id?: number;
@@ -25,6 +26,7 @@ export default function Recordatorios() {
   const usuario = 'usuario1';
   const [hora, setHora] = useState('');
 
+  // ✅ Cargar recordatorios existentes
   const cargarRecordatorios = () => {
     fetch('/api/recordatorios')
       .then(res => res.json())
@@ -32,7 +34,12 @@ export default function Recordatorios() {
       .catch(console.error);
   };
 
+  // ✅ Cargar fecha desde localStorage si existe
   useEffect(() => {
+    const savedDate = localStorage.getItem('selectedDate');
+    if (savedDate) {
+      setFechaSeleccionada(new Date(savedDate));
+    }
     cargarRecordatorios();
   }, []);
   const handleSubmit = async (e: FormEvent) => {

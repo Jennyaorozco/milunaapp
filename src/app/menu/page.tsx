@@ -1,4 +1,4 @@
- 'use client';
+'use client';
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -6,6 +6,7 @@ import { MiLunaLogo } from '../../components/mi_luna_logo';
 import { useEffect, useState } from 'react';
 import { RecordatorioCard } from '../../components/RecordatorioCard';
 import { Bell, Calendar, Heart, Leaf } from 'lucide-react';
+import InfoCalendario from '../../components/InfoCalendario'; // ✅ NUEVO
 
 interface Recordatorio {
   id?: number;
@@ -108,7 +109,7 @@ export default function MenuPage() {
     <main className="min-h-screen bg-gray-50 relative overflow-hidden">
 
       {/* Topbar */}
-  <header className="w-full bg-pink-700 text-white py-3 shadow-sm z-20">
+      <header className="w-full bg-pink-700 text-white py-3 shadow-sm z-20">
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <MiLunaLogo size="small" className="text-white" />
@@ -127,22 +128,33 @@ export default function MenuPage() {
 
       <div className="relative z-10 flex flex-col items-center text-center px-6 pt-12 w-full">
         <div className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl p-10 -mt-28">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-5xl mb-8 mx-auto">
-            {menuItems.map((item, index) => (
-              <Link
-                key={item.title}
-                href={item.href}
-                className={`menu-card-contrast group animate-fadeInUp border-4 ${item.border}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className={`menu-card-accent-top bg-gradient-to-r ${item.color}`}></div>
-                <div className="relative z-10 px-2">
-                  <div className="text-4xl mb-4 transition-transform duration-300">{item.icon}</div>
-                  <h3 className="menu-card-title">{item.title}</h3>
-                  <p className="menu-card-desc">{item.description}</p>
-                </div>
-              </Link>
-            ))}
+          {/* ✅ NUEVO: Grid con InfoCalendario */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+            {/* Columna izquierda - Info del Calendario */}
+            <div className="lg:col-span-1">
+              <InfoCalendario />
+            </div>
+
+            {/* Columna derecha - Menú de opciones */}
+            <div className="lg:col-span-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {menuItems.map((item, index) => (
+                  <Link
+                    key={item.title}
+                    href={item.href}
+                    className={`menu-card-contrast group animate-fadeInUp border-4 ${item.border}`}
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    <div className={`menu-card-accent-top bg-gradient-to-r ${item.color}`}></div>
+                    <div className="relative z-10 px-2">
+                      <div className="text-4xl mb-4 transition-transform duration-300">{item.icon}</div>
+                      <h3 className="menu-card-title">{item.title}</h3>
+                      <p className="menu-card-desc">{item.description}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -197,4 +209,3 @@ export default function MenuPage() {
     </main>
   );
 }
-
