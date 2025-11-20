@@ -1,4 +1,4 @@
-// app/recordatorios/page.tsx
+// app/recordatorios/page.tsx - VERSIÓN SIN API (localStorage)
 'use client'
 
 import Link from 'next/link'
@@ -9,11 +9,11 @@ import { useEffect, useState, FormEvent } from 'react'
 import Calendar from 'react-calendar'
 import { Calendar as LucideCalendar, MessageSquare, FileText, PlusSquare } from 'lucide-react'
 import 'react-calendar/dist/Calendar.css'
-import ProtectedRoute from '../../components/ProtectedRoute' // ✅ NUEVO
-import { getCurrentUser } from '../../lib/userStorage' // ✅ NUEVO
+import ProtectedRoute from '../../components/ProtectedRoute'
+import { getCurrentUser, saveUserData, getUserData } from '../../lib/userStorage'
 
 interface Recordatorio {
-  id?: number
+  id: number
   user: string
   fecha: string
   hora?: string
@@ -26,9 +26,8 @@ export default function Recordatorios() {
   const [fechaSeleccionada, setFechaSeleccionada] = useState(new Date())
   const [mensaje, setMensaje] = useState('')
   const [hora, setHora] = useState('')
-  const [username, setUsername] = useState<string>('') // ✅ NUEVO
+  const [username, setUsername] = useState<string>('')
 
-  // ✅ NUEVO: Obtener usuario actual
   useEffect(() => {
     const user = getCurrentUser()
     if (user) {
@@ -37,26 +36,30 @@ export default function Recordatorios() {
     }
   }, [])
 
-  // ✅ Cargar recordatorios existentes
+  // ✅ Cargar recordatorios del localStorage
   const cargarRecordatorios = () => {
-    console.log('📋 Cargando recordatorios...')
-    fetch('/api/recordatorios')
-      .then(res => res.json())
-      .then(data => {
-        console.log('✅ Recordatorios cargados:', data.length)
-        setRecordatorios(data)
-      })
-      .catch(error => {
-        console.error('❌ Error cargando recordatorios:', error)
-      })
+    console.log('📋 Cargando recordatorios desde localStorage...')
+    const recordatoriosGuardados = getUserData('recordatorios')
+    
+    if (recordatoriosGuardados) {
+      try {
+        const datos = JSON.parse(recordatoriosGuardados)
+        console.log('✅ Recordatorios cargados:', datos.length)
+        setRecordatorios(datos)
+      } catch (error) {
+        console.error('❌ Error parseando recordatorios:', error)
+        setRecordatorios([])
+      }
+    } else {
+      console.log('ℹ️ No hay recordatorios guardados')
+      setRecordatorios([])
+    }
   }
 
-  // ✅ Cargar fecha desde localStorage si existe
   useEffect(() => {
     const savedDate = localStorage.getItem('selectedDate')
     if (savedDate) {
       setFechaSeleccionada(new Date(savedDate))
-      console.log('📅 Fecha restaurada del localStorage')
     }
     cargarRecordatorios()
   }, [])
@@ -73,8 +76,12 @@ export default function Recordatorios() {
       .toISOString()
       .split('T')[0]
 
+    // ✅ Generar ID único
+    const nuevoId = Date.now()
+
     const nuevo: Recordatorio = {
-      user: username, // ✅ MEJORADO: Usar username real
+      id: nuevoId,
+      user: username,
       fecha: localDate,
       mensaje,
       hora,
@@ -82,28 +89,43 @@ export default function Recordatorios() {
 
     console.log('💾 Creando recordatorio:', nuevo)
 
-    const res = await fetch('/api/recordatorios', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(nuevo),
-    })
+    // ✅ Agregar a la lista existente
+    const nuevosRecordatorios = [...recordatorios, nuevo]
+    
+    // ✅ Guardar en localStorage
+    saveUserData('recordatorios', JSON.stringify(nuevosRecordatorios))
+    
+    // ✅ Actualizar estado
+    setRecordatorios(nuevosRecordatorios)
+    
+    // ✅ Limpiar formulario
+    setFechaSeleccionada(new Date())
+    setMensaje('')
+    setHora('')
+    
+    console.log('✅ Recordatorio creado exitosamente')
+  }
 
-    if (res.ok) {
-      console.log('✅ Recordatorio creado exitosamente')
-      cargarRecordatorios()
-      setFechaSeleccionada(new Date())
-      setMensaje('')
-      setHora('')
-    } else {
-      const data = await res.json()
-      console.error('❌ Error creando recordatorio:', data.error)
-      alert(data.error || 'Ocurrió un error')
-    }
+  const eliminarRecordatorio = (id: number) => {
+    console.log('🗑️ Eliminando recordatorio:', id)
+    
+    const confirmar = confirm('¿Eliminar este recordatorio?')
+    if (!confirmar) return
+    
+    // ✅ Filtrar recordatorio eliminado
+    const nuevosRecordatorios = recordatorios.filter(r => r.id !== id)
+    
+    // ✅ Guardar en localStorage
+    saveUserData('recordatorios', JSON.stringify(nuevosRecordatorios))
+    
+    // ✅ Actualizar estado
+    setRecordatorios(nuevosRecordatorios)
+    
+    console.log('✅ Recordatorio eliminado')
   }
 
   const handleBack = () => router.push('/menu')
 
-  // ✅ MEJORADO: No borrar todos los datos
   const cerrarSesion = () => {
     const confirmar = confirm('¿Deseas cerrar sesión? Tus datos se mantendrán guardados.')
     
@@ -113,8 +135,6 @@ export default function Recordatorios() {
       localStorage.removeItem('usuarioActivo')
       localStorage.removeItem('isLoggedIn')
       localStorage.removeItem('currentUser')
-      
-      // ⚠️ NO usar localStorage.clear()
       
       window.location.href = '/login'
     }
@@ -167,7 +187,7 @@ export default function Recordatorios() {
           <div className="w-full max-w-6xl">
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-              {/* Left: Formulario - tarjeta sticky */}
+              {/* Left: Formulario */}
               <div className="lg:col-span-1">
                 <div className="sticky top-24 glass-pink rounded-3xl p-6 card-soft animate-fadeInUp shadow-2xl">
                   <h2 className="flex items-center gap-3 text-xl font-bold text-pink-600 mb-4">
@@ -202,7 +222,6 @@ export default function Recordatorios() {
                         placeholder="Ej: Día fértil, cita médica, tomar vitaminas..."
                         className="w-full px-4 py-3 bg-white/90 border border-pink-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 transition-all duration-200 placeholder-gray-400"
                       />
-                      {/* Quick chips */}
                       <div className="mt-3 flex flex-wrap gap-2">
                         {['Día fértil', 'Cita médica', 'Tomar vitaminas'].map((c) => (
                           <button
@@ -217,7 +236,6 @@ export default function Recordatorios() {
                       </div>
                     </div>
 
-                    {/* Hora field */}
                     <div>
                       <label className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-2">
                         <span className="text-pink-500">⏰</span>
@@ -250,24 +268,46 @@ export default function Recordatorios() {
                       Tus Recordatorios
                     </h2>
                     <div className="text-sm text-gray-500">
-                      Mostrando <span className="font-medium">{recordatorios.filter(r => r.user === username).length}</span>
+                      Mostrando <span className="font-medium">{recordatorios.length}</span>
                     </div>
                   </div>
 
-                  {recordatorios.filter(r => r.user === username).length > 0 ? (
-                    <div className="flex flex-wrap gap-4">
+                  {recordatorios.length > 0 ? (
+                    <div className="space-y-3">
                       {recordatorios
-                        .filter(r => r.user === username)
-                        .map((r, index) => (
-                          <div key={r.id || index} className="w-full sm:w-1/2 lg:w-1/3">
-                            <RecordatorioCard
-                              id={r.id}
-                              fecha={r.fecha}
-                              hora={r.hora}
-                              mensaje={r.mensaje}
-                              onRefresh={cargarRecordatorios}
-                              variant="compact"
-                            />
+                        .sort((a, b) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime())
+                        .map((r) => (
+                          <div 
+                            key={r.id} 
+                            className="bg-gradient-to-r from-pink-50 to-purple-50 border border-pink-200 rounded-xl p-4 hover:shadow-md transition-shadow"
+                          >
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-2">
+                                  <span className="text-sm font-semibold text-pink-600">
+                                    📅 {new Date(r.fecha).toLocaleDateString('es-ES', {
+                                      weekday: 'long',
+                                      year: 'numeric',
+                                      month: 'long',
+                                      day: 'numeric'
+                                    })}
+                                  </span>
+                                  {r.hora && (
+                                    <span className="text-xs bg-pink-100 text-pink-700 px-2 py-1 rounded-full">
+                                      ⏰ {r.hora}
+                                    </span>
+                                  )}
+                                </div>
+                                <p className="text-gray-700 font-medium">{r.mensaje}</p>
+                              </div>
+                              <button
+                                onClick={() => eliminarRecordatorio(r.id)}
+                                className="ml-4 text-red-500 hover:text-red-700 transition-colors"
+                                title="Eliminar"
+                              >
+                                🗑️
+                              </button>
+                            </div>
                           </div>
                         ))}
                     </div>

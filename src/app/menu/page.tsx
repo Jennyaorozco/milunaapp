@@ -8,22 +8,23 @@ import { useEffect, useState } from 'react'
 import { RecordatorioCard } from '../../components/RecordatorioCard'
 import { Bell, Calendar, Heart, Leaf } from 'lucide-react'
 import InfoCalendario from '../../components/InfoCalendario'
-import ProtectedRoute from '../../components/ProtectedRoute' // ✅ NUEVO
-import { getCurrentUser } from '../../lib/userStorage' // ✅ NUEVO
+import ProtectedRoute from '../../components/ProtectedRoute'
+import { getCurrentUser, getUserData, saveUserData } from '../../lib/userStorage' // ✅ NUEVO
 
 interface Recordatorio {
-  id?: number
+  id: number
   user: string
   fecha: string
+  hora?: string
   mensaje: string
 }
 
 export default function MenuPage() {
   const router = useRouter()
   const [recordatorios, setRecordatorios] = useState<Recordatorio[]>([])
-  const [username, setUsername] = useState<string>('') // ✅ NUEVO
+  const [username, setUsername] = useState<string>('')
 
-  // ✅ NUEVO: Obtener usuario actual
+  // ✅ Obtener usuario actual
   useEffect(() => {
     const user = getCurrentUser()
     if (user) {
@@ -32,39 +33,76 @@ export default function MenuPage() {
     }
   }, [])
 
-  // ✅ MEJORADO: No borrar todos los datos
+  // ✅ NUEVO: Cargar recordatorios desde localStorage
+  const cargarRecordatorios = () => {
+    console.log('📋 Cargando recordatorios desde localStorage...')
+    const recordatoriosGuardados = getUserData('recordatorios')
+    
+    if (recordatoriosGuardados) {
+      try {
+        const datos = JSON.parse(recordatoriosGuardados)
+        console.log('✅ Recordatorios cargados:', datos.length)
+        setRecordatorios(datos)
+      } catch (error) {
+        console.error('❌ Error parseando recordatorios:', error)
+        setRecordatorios([])
+      }
+    } else {
+      console.log('ℹ️ No hay recordatorios guardados')
+      setRecordatorios([])
+    }
+  }
+
+  useEffect(() => {
+    cargarRecordatorios()
+  }, [])
+
+  // ✅ NUEVO: Eliminar recordatorio (localStorage)
+  const eliminarRecordatorio = (id: number) => {
+    console.log('🗑️ Eliminando recordatorio:', id)
+    
+    const nuevosRecordatorios = recordatorios.filter(r => r.id !== id)
+    
+    // Guardar en localStorage
+    saveUserData('recordatorios', JSON.stringify(nuevosRecordatorios))
+    
+    // Actualizar estado
+    setRecordatorios(nuevosRecordatorios)
+    
+    console.log('✅ Recordatorio eliminado')
+  }
+
+  // ✅ NUEVO: Editar recordatorio (localStorage)
+  const editarRecordatorio = (id: number, nuevoMensaje: string) => {
+    console.log('💾 Editando recordatorio:', id)
+    
+    const nuevosRecordatorios = recordatorios.map(r => 
+      r.id === id ? { ...r, mensaje: nuevoMensaje } : r
+    )
+    
+    // Guardar en localStorage
+    saveUserData('recordatorios', JSON.stringify(nuevosRecordatorios))
+    
+    // Actualizar estado
+    setRecordatorios(nuevosRecordatorios)
+    
+    console.log('✅ Recordatorio actualizado')
+  }
+
+  // ✅ Cerrar sesión mejorado
   const cerrarSesion = () => {
     const confirmar = confirm('¿Deseas cerrar sesión? Tus datos se mantendrán guardados.')
     
     if (confirmar) {
       console.log('👋 Cerrando sesión de:', username)
       
-      // Solo eliminar autenticación
       localStorage.removeItem('usuarioActivo')
       localStorage.removeItem('isLoggedIn')
       localStorage.removeItem('currentUser')
       
-      // ⚠️ NO usar localStorage.clear()
-      
       window.location.href = '/login'
     }
   }
-
-  // fetch helper to load reminders
-  const fetchData = async () => {
-    try {
-      const res = await fetch('/api/recordatorios')
-      const data = await res.json()
-      console.log('📋 Recordatorios cargados:', data.length)
-      setRecordatorios(data || [])
-    } catch (e) {
-      console.error('❌ Error cargando recordatorios:', e)
-    }
-  }
-
-  useEffect(() => {
-    fetchData()
-  }, [])
 
   // Helper: format date to relative terms (Hoy / Mañana) or readable date
   const formatRelativeDate = (isoDate?: string) => {
@@ -75,22 +113,9 @@ export default function MenuPage() {
       const diff = Math.floor((d.setHours(0,0,0,0) - new Date(today).setHours(0,0,0,0)) / (1000*60*60*24))
       if (diff === 0) return 'Hoy'
       if (diff === 1) return 'Mañana'
-      return d.toLocaleDateString(undefined, { day: '2-digit', month: 'short' })
+      return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })
     } catch (e) {
       return isoDate
-    }
-  }
-
-  const deleteReminder = async (id?: number) => {
-    if (!id) return
-    const ok = confirm('¿Eliminar este recordatorio?')
-    if (!ok) return
-    setRecordatorios(prev => prev.filter(r => r.id !== id))
-    try {
-      await fetch(`/api/recordatorios/${id}`, { method: 'DELETE' })
-      console.log('✅ Recordatorio eliminado:', id)
-    } catch (e) {
-      console.error('❌ Error eliminando recordatorio:', e)
     }
   }
 
@@ -128,6 +153,20 @@ export default function MenuPage() {
       border: 'border-emerald-400'
     }
   ]
+
+  // ✅ Filtrar y ordenar recordatorios del usuario actual
+  const recordatoriosUsuario = recordatorios.filter(r => r.user === username)
+  const today = new Date()
+  const recordatoriosOrdenados = recordatoriosUsuario.slice().sort((a, b) => {
+    const da = new Date(a.fecha).setHours(0,0,0,0) - new Date(today).setHours(0,0,0,0)
+    const db = new Date(b.fecha).setHours(0,0,0,0) - new Date(today).setHours(0,0,0,0)
+    const keyA = da >= 0 ? da : da + 1000000000
+    const keyB = db >= 0 ? db : db + 1000000000
+    return keyA - keyB
+  })
+
+  const recordatorioReciente = recordatoriosOrdenados[0]
+  const otrosRecordatorios = recordatoriosOrdenados.slice(1)
 
   return (
     <ProtectedRoute>
@@ -205,7 +244,7 @@ export default function MenuPage() {
         <div className="relative z-10 flex flex-col items-center text-center px-6 pb-12 w-full">
           <div className="w-full max-w-6xl bg-white rounded-2xl shadow-2xl p-10">
             {/* Header para la sección de recordatorios */}
-            {recordatorios.filter(r => r.user === username).length > 0 && (
+            {recordatoriosUsuario.length > 0 && (
               <div className="mb-6 text-left">
                 <h2 className="text-2xl font-bold text-gray-900">Tus recordatorios recientes</h2>
                 <div className="w-full border-t-2 border-gray-200 mt-4 mb-6"></div>
@@ -213,53 +252,44 @@ export default function MenuPage() {
             )}
 
             {/* Recordatorios recientes */}
-            {recordatorios.filter(r => r.user === username).length > 0 && (() => {
-              let userRems = recordatorios.filter(r => r.user === username)
-              const today = new Date()
-              userRems = userRems.slice().sort((a, b) => {
-                const da = new Date(a.fecha).setHours(0,0,0,0) - new Date(today).setHours(0,0,0,0)
-                const db = new Date(b.fecha).setHours(0,0,0,0) - new Date(today).setHours(0,0,0,0)
-                const keyA = da >= 0 ? da : da + 1000000000
-                const keyB = db >= 0 ? db : db + 1000000000
-                return keyA - keyB
-              })
-              const latest = userRems[0]
-              const others = userRems.slice(1)
-              return (
-                <div className="w-full mt-6">
-                  {/* Tarjeta de resumen dinámico */}
+            {recordatoriosUsuario.length > 0 ? (
+              <div className="w-full mt-6">
+                {/* Tarjeta de resumen dinámico */}
+                {recordatorioReciente && (
                   <div className="w-full mb-8">
                     <RecordatorioCard 
-                      key={latest.id} 
-                      id={latest.id} 
-                      fecha={latest.fecha} 
-                      mensaje={latest.mensaje} 
-                      onRefresh={fetchData} 
+                      key={recordatorioReciente.id} 
+                      id={recordatorioReciente.id} 
+                      fecha={recordatorioReciente.fecha}
+                      hora={recordatorioReciente.hora}
+                      mensaje={recordatorioReciente.mensaje}
+                      onDelete={eliminarRecordatorio}
+                      onEdit={editarRecordatorio}
                       variant="summary" 
                     />
                   </div>
+                )}
 
-                  {/* Lista vertical de otros recordatorios */}
-                  {others.length > 0 && (
-                    <div className="mt-4 space-y-4">
-                      {others.slice(0, 8).map((r) => (
-                        <RecordatorioCard 
-                          key={r.id} 
-                          id={r.id} 
-                          fecha={r.fecha} 
-                          mensaje={r.mensaje} 
-                          onRefresh={fetchData} 
-                          variant="summary" 
-                        />
-                      ))}
-                    </div>
-                  )}
-                </div>
-              )
-            })()}
-
-            {/* Mensaje si no hay recordatorios */}
-            {recordatorios.filter(r => r.user === username).length === 0 && (
+                {/* Lista vertical de otros recordatorios */}
+                {otrosRecordatorios.length > 0 && (
+                  <div className="mt-4 space-y-4">
+                    {otrosRecordatorios.slice(0, 8).map((r) => (
+                      <RecordatorioCard 
+                        key={r.id} 
+                        id={r.id} 
+                        fecha={r.fecha}
+                        hora={r.hora}
+                        mensaje={r.mensaje}
+                        onDelete={eliminarRecordatorio}
+                        onEdit={editarRecordatorio}
+                        variant="summary" 
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* Mensaje si no hay recordatorios */
               <div className="text-center py-12">
                 <Bell className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500 text-lg">No tienes recordatorios aún</p>
