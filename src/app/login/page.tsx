@@ -1,6 +1,7 @@
+// app/login/page.tsx
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { MiLunaLogo } from '@/components/mi_luna_logo'
 import { FormCard } from '@/components/FormCard'
@@ -13,6 +14,15 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
+
+  // ✅ NUEVO: Verificar si ya está logueado
+  useEffect(() => {
+    const usuarioActivo = localStorage.getItem('usuarioActivo')
+    if (usuarioActivo) {
+      console.log('✅ Usuario ya logueado, redirigiendo...')
+      router.push('/menu')
+    }
+  }, [router])
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,13 +38,19 @@ export default function LoginPage() {
       return
     }
 
+    // ✅ MEJORADO: Guardar más información
     localStorage.setItem('usuarioActivo', JSON.stringify(user))
+    localStorage.setItem('isLoggedIn', 'true')
+    localStorage.setItem('currentUser', username)
+    
+    console.log('✅ Login exitoso:', username)
+    console.log('✅ Usuario guardado en localStorage')
+    
     router.push('/menu')
   }
 
   return (
     <FormCard>
-      {/* Logo */}
       <div className="flex flex-col items-center justify-center gap-2 mb-6">
         <MiLunaLogo size="large" stacked className="text-pink-600" />
         <h1 className="text-2xl font-extrabold text-center mt-2 mb-6" style={{ color: 'rgb(31,41,55)' }}>Login Form</h1>

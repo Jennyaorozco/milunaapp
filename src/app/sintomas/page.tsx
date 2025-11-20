@@ -1,3 +1,4 @@
+// app/sintomas/page.tsx
 'use client'
 
 import Link from 'next/link'
@@ -6,13 +7,16 @@ import { useState, useEffect } from 'react'
 import { MiLunaLogo } from '../../components/mi_luna_logo'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
-import { Droplet, Thermometer, Sparkle, Heart, Moon, Save, Calendar as CalendarIcon } from 'lucide-react'
-import { useCalendario } from '../../contexts/CalendarioContext' // ✅ NUEVO
-import InfoCalendario from '../../components/InfoCalendario' // ✅ NUEVO
+import { Droplet, Thermometer, Sparkle, Heart, Save, Calendar as CalendarIcon } from 'lucide-react'
+import { useCalendario } from '../../contexts/CalendarioContext'
+import InfoCalendario from '../../components/InfoCalendario'
+import ProtectedRoute from '../../components/ProtectedRoute' // ✅ NUEVO
+import { saveUserData, getUserData, getCurrentUser } from '../../lib/userStorage' // ✅ NUEVO
 
 export default function Sintomas() {
   const router = useRouter()
-  const { calendario } = useCalendario() // ✅ USAR CONTEXTO
+  const { calendario } = useCalendario()
+  const [username, setUsername] = useState<string>('') // ✅ NUEVO
 
   const categories = [
     {
@@ -60,107 +64,166 @@ export default function Sintomas() {
     emociones: '',
   })
 
+  // ✅ NUEVO: Obtener usuario actual
+  useEffect(() => {
+    const user = getCurrentUser()
+    if (user) {
+      setUsername(user.username)
+      console.log('👤 Usuario en síntomas:', user.username)
+    }
+  }, [])
+
+  // ✅ NUEVO: Cargar datos guardados del usuario
+  useEffect(() => {
+    console.log('📖 Cargando síntomas guardados...')
+    const sintomasGuardados = getUserData('misSintomas')
+    
+    if (sintomasGuardados) {
+      try {
+        const datos = JSON.parse(sintomasGuardados)
+        setFormData(datos)
+        console.log('✅ Síntomas cargados correctamente')
+      } catch (error) {
+        console.error('❌ Error parseando síntomas:', error)
+      }
+    } else {
+      console.log('ℹ️ No hay síntomas guardados previamente')
+    }
+  }, [])
+
   const handleChange = (key: string, value: string) => {
     setFormData(prev => ({ ...prev, [key]: value }))
   }
 
+  // ✅ MEJORADO: Guardar datos por usuario
   const handleGuardar = () => {
-    localStorage.setItem('misSintomas', JSON.stringify(formData));
-    router.push('/consejos');
-  };
+    console.log('💾 Guardando síntomas para:', username)
+    saveUserData('misSintomas', JSON.stringify(formData))
+    console.log('✅ Síntomas guardados, navegando a consejos')
+    router.push('/consejos')
+  }
 
+  // ✅ MEJORADO: No borrar todos los datos
   const cerrarSesion = () => {
-    localStorage.clear();
-    window.location.href = '/login';
-  };
+    const confirmar = confirm('¿Deseas cerrar sesión? Tus datos se mantendrán guardados.')
+    
+    if (confirmar) {
+      console.log('👋 Cerrando sesión de:', username)
+      
+      localStorage.removeItem('usuarioActivo')
+      localStorage.removeItem('isLoggedIn')
+      localStorage.removeItem('currentUser')
+      
+      window.location.href = '/login'
+    }
+  }
 
   return (
-    <main className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <ProtectedRoute>
+      <main className="min-h-screen bg-gray-50 relative overflow-hidden">
 
-      {/* Topbar */}
-      <header className="w-full bg-pink-700 text-white py-3 shadow-sm z-20">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-          <Link href="/menu" className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Atrás
-          </Link>
-          <MiLunaLogo size="small" className="text-white" />
-          <button onClick={cerrarSesion} className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all">Cerrar sesión</button>
-        </div>
-      </header>
+        {/* Topbar */}
+        <header className="w-full bg-pink-700 text-white py-3 shadow-sm z-20">
+          <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+            <Link href="/menu" className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Atrás
+            </Link>
+            <div className="flex items-center gap-2">
+              <MiLunaLogo size="small" className="text-white" />
+              {username && (
+                <span className="text-xs text-white/80 hidden sm:inline">
+                  @{username}
+                </span>
+              )}
+            </div>
+            <button 
+              onClick={cerrarSesion} 
+              className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all"
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        </header>
 
-      {/* Banner rosado */}
-      <section className="w-full bg-pink-200 py-8">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-3xl font-bold text-pink-700">Mi Diario Lunar</h1>
-          <p className="text-sm text-gray-700 mt-2">Registra cómo te sientes hoy y conecta con tu cuerpo</p>
-        </div>
-      </section>
+        {/* Banner rosado */}
+        <section className="w-full bg-pink-200 py-8">
+          <div className="max-w-6xl mx-auto px-6 text-center">
+            <h1 className="text-3xl font-bold text-pink-700">Mi Diario Lunar</h1>
+            <p className="text-sm text-gray-700 mt-2">Registra cómo te sientes hoy y conecta con tu cuerpo</p>
+            {username && (
+              <p className="text-xs text-gray-600 mt-1">
+                Registrando datos para: <strong>{username}</strong>
+              </p>
+            )}
+          </div>
+        </section>
 
-      <div className="relative z-10 flex flex-col items-center px-4 py-12">
-        <div className="w-full max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
-            {/* ✅ COLUMNA IZQUIERDA: Info del Calendario + Calendario Visual */}
-            <div className="lg:col-span-1 space-y-6">
-              {/* Información del calendario persistente */}
-              <InfoCalendario />
+        <div className="relative z-10 flex flex-col items-center px-4 py-12">
+          <div className="w-full max-w-6xl">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+              {/* Columna izquierda - Info del Calendario + Calendario Visual */}
+              <div className="lg:col-span-1 space-y-6">
+                {/* Información del calendario persistente */}
+                <InfoCalendario />
 
-              {/* Calendario visual */}
-              <div className="glass-pink rounded-3xl p-6 card-soft animate-fadeInUp shadow-2xl" style={{ animationDelay: '0.1s' }}>
-                <h2 className="text-xl font-bold text-pink-700 mb-4 text-center flex items-center justify-center gap-2">
-                  <CalendarIcon className="w-5 h-5 text-pink-500" />
-                  Vista del Mes
-                </h2>
-                <div className="rounded-2xl p-2 bg-white">
-                  <Calendar 
-                    className="w-full" 
-                    value={calendario.fechaInicio || new Date()} 
-                  />
+                {/* Calendario visual */}
+                <div className="glass-pink rounded-3xl p-6 card-soft animate-fadeInUp shadow-2xl" style={{ animationDelay: '0.1s' }}>
+                  <h2 className="text-xl font-bold text-pink-700 mb-4 text-center flex items-center justify-center gap-2">
+                    <CalendarIcon className="w-5 h-5 text-pink-500" />
+                    Vista del Mes
+                  </h2>
+                  <div className="rounded-2xl p-2 bg-white">
+                    <Calendar 
+                      className="w-full" 
+                      value={calendario.fechaInicio || new Date()} 
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Columna derecha - Formulario de síntomas */}
+              <div className="lg:col-span-2">
+                <div className="space-y-6">
+                  {categories.map((category, index) => (
+                    <div
+                      key={category.key}
+                      className={`glass-pink rounded-3xl p-6 card-soft animate-fadeInUp shadow-2xl border-l-4 border-pink-300 hover:border-pink-400 transition-all duration-300`}
+                      style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
+                    >
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className={`text-3xl p-3 rounded-full bg-gradient-to-r ${category.color} text-white shadow-lg flex items-center justify-center`}>
+                          {category.icon}
+                        </div>
+                        <h3 className="text-xl font-bold text-gray-800">{category.name}</h3>
+                      </div>
+                      <textarea
+                        className={`w-full h-32 ${category.bgColor} border ${category.borderColor} rounded-xl p-4 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 resize-none`}
+                        placeholder={category.placeholder}
+                        value={formData[category.key as keyof typeof formData]}
+                        onChange={(e) => handleChange(category.key, e.target.value)}
+                      />
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
 
-            {/* ✅ COLUMNA DERECHA: Formulario de síntomas */}
-            <div className="lg:col-span-2">
-              <div className="space-y-6">
-                {categories.map((category, index) => (
-                  <div
-                    key={category.key}
-                    className={`glass-pink rounded-3xl p-6 card-soft animate-fadeInUp shadow-2xl border-l-4 border-pink-300 hover:border-pink-400 transition-all duration-300`}
-                    style={{ animationDelay: `${index * 0.1 + 0.2}s` }}
-                  >
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className={`text-3xl p-3 rounded-full bg-gradient-to-r ${category.color} text-white shadow-lg flex items-center justify-center`}>
-                        {category.icon}
-                      </div>
-                      <h3 className="text-xl font-bold text-gray-800">{category.name}</h3>
-                    </div>
-                    <textarea
-                      className={`w-full h-32 ${category.bgColor} border ${category.borderColor} rounded-xl p-4 text-gray-700 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 resize-none`}
-                      placeholder={category.placeholder}
-                      value={formData[category.key as keyof typeof formData]}
-                      onChange={(e) => handleChange(category.key, e.target.value)}
-                    />
-                  </div>
-                ))}
-              </div>
+            {/* Botón guardar */}
+            <div className="flex justify-center mt-12 animate-fadeInUp">
+              <button
+                onClick={handleGuardar}
+                className="btn-gradient text-white font-semibold py-4 px-12 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-lg flex items-center gap-3"
+              >
+                <Save className="w-6 h-6 text-white" />
+                Guardar mi diario
+              </button>
             </div>
           </div>
-
-          {/* Botón guardar */}
-          <div className="flex justify-center mt-12 animate-fadeInUp">
-            <button
-              onClick={handleGuardar}
-              className="btn-gradient text-white font-semibold py-4 px-12 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-lg flex items-center gap-3"
-            >
-              <Save className="w-6 h-6 text-white" />
-              Guardar mi diario
-            </button>
-          </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </ProtectedRoute>
   )
 }

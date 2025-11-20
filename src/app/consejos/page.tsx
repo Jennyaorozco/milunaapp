@@ -1,3 +1,4 @@
+// app/consejos/page.tsx
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -6,7 +7,9 @@ import { useRouter } from 'next/navigation'
 import { MiLunaLogo } from '../../components/mi_luna_logo'
 import { Lightbulb, ArrowLeft, Home, Sparkles, Brain, Loader2, Calendar, Heart, Droplet, Activity } from 'lucide-react'
 import { useCalendario } from '../../contexts/CalendarioContext'
-import DescargarReporte from '../../components/DescargarReporte' // ✅ NUEVO
+import DescargarReporte from '../../components/DescargarReporte'
+import ProtectedRoute from '../../components/ProtectedRoute' // ✅ NUEVO
+import { getUserData, getCurrentUser } from '../../lib/userStorage' // ✅ NUEVO
 import condicionesCategorias from './ciclo_menstrual_full.json'
 
 interface Condicion {
@@ -29,36 +32,54 @@ export default function ConsejosPage() {
   const [consejosGemini, setConsejosGemini] = useState<string>('')
   const [loadingGemini, setLoadingGemini] = useState(false)
   const [geminiAnalizado, setGeminiAnalizado] = useState(false)
+  const [username, setUsername] = useState<string>('') // ✅ NUEVO
+
+  // ✅ NUEVO: Obtener usuario actual
+  useEffect(() => {
+    const user = getCurrentUser()
+    if (user) {
+      setUsername(user.username)
+      console.log('👤 Usuario en consejos:', user.username)
+    }
+  }, [])
 
   useEffect(() => {
     generarConsejosCompletos()
   }, [calendario])
 
-  // ✅ NUEVA FUNCIÓN: Generar consejos completos basados en calendario y síntomas
+  // ✅ MEJORADO: Usar getUserData para leer síntomas por usuario
   const generarConsejosCompletos = () => {
-    const datosSintomas = JSON.parse(localStorage.getItem('misSintomas') || '{}')
+    console.log('📖 Cargando síntomas para generar consejos...')
+    const sintomasGuardados = getUserData('misSintomas')
+    const datosSintomas = sintomasGuardados ? JSON.parse(sintomasGuardados) : {}
+    
+    console.log('📋 Síntomas cargados:', datosSintomas)
     const nuevosConsejos: Consejo[] = []
 
     // 1️⃣ CONSEJOS BASADOS EN LA FASE DEL CICLO
     if (calendario.faseActual) {
+      console.log('🌙 Generando consejos para fase:', calendario.faseActual)
       const consejosFase = obtenerConsejosPorFase(calendario.faseActual, calendario.diasHastaPeriodo || 0)
       nuevosConsejos.push(...consejosFase)
     }
 
     // 2️⃣ CONSEJOS BASADOS EN SÍNTOMAS FÍSICOS
     if (datosSintomas.sintomas) {
+      console.log('💊 Analizando síntomas físicos')
       const consejosSintomas = analizarSintomas(datosSintomas.sintomas)
       nuevosConsejos.push(...consejosSintomas)
     }
 
     // 3️⃣ CONSEJOS BASADOS EN EMOCIONES
     if (datosSintomas.emociones) {
+      console.log('💙 Analizando emociones')
       const consejosEmocionales = analizarEmociones(datosSintomas.emociones)
       nuevosConsejos.push(...consejosEmocionales)
     }
 
     // 4️⃣ CONSEJOS BASADOS EN FLUJO
     if (datosSintomas.flujo) {
+      console.log('💧 Analizando flujo')
       const consejosFlujo = analizarFlujo(datosSintomas.flujo)
       nuevosConsejos.push(...consejosFlujo)
     }
@@ -87,6 +108,7 @@ export default function ConsejosPage() {
 
     // Si no hay consejos, agregar uno general
     if (nuevosConsejos.length === 0) {
+      console.log('ℹ️ No hay consejos específicos, usando consejo general')
       nuevosConsejos.push({
         titulo: 'Bienestar General',
         detalle: 'Mantén una rutina saludable: duerme 7-8 horas, bebe suficiente agua, come balanceado y haz ejercicio moderado. Escucha las señales de tu cuerpo.',
@@ -96,6 +118,7 @@ export default function ConsejosPage() {
       })
     }
 
+    console.log('✅ Consejos generados:', nuevosConsejos.length)
     setConsejos(nuevosConsejos)
   }
 
@@ -396,7 +419,7 @@ export default function ConsejosPage() {
     return consejos
   }
 
-  // ✅ FUNCIÓN: Analizar con Gemini
+  // ✅ MEJORADO: Usar getUserData para Gemini
   const analizarConGemini = async () => {
     setLoadingGemini(true)
     
@@ -409,7 +432,10 @@ export default function ConsejosPage() {
         diasHastaPeriodo: calendario.diasHastaPeriodo
       }
 
-      const datosSintomas = JSON.parse(localStorage.getItem('misSintomas') || '{}')
+      const sintomasGuardados = getUserData('misSintomas')
+      const datosSintomas = sintomasGuardados ? JSON.parse(sintomasGuardados) : {}
+
+      console.log('🤖 Solicitando análisis de Gemini...')
 
       const prompt = `Eres Luna, un asistente especializado en salud menstrual y bienestar femenino.
 
@@ -471,196 +497,225 @@ Genera una respuesta completa y personalizada:`;
     }
   }
 
+  // ✅ MEJORADO: No borrar todos los datos
   const cerrarSesion = () => {
-    localStorage.clear();
-    window.location.href = '/login';
-  };
+    const confirmar = confirm('¿Deseas cerrar sesión? Tus datos se mantendrán guardados.')
+    
+    if (confirmar) {
+      console.log('👋 Cerrando sesión de:', username)
+      
+      localStorage.removeItem('usuarioActivo')
+      localStorage.removeItem('isLoggedIn')
+      localStorage.removeItem('currentUser')
+      
+      window.location.href = '/login'
+    }
+  }
 
   return (
-    <main className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <ProtectedRoute>
+      <main className="min-h-screen bg-gray-50 relative overflow-hidden">
 
-      {/* Topbar */}
-      <header className="w-full bg-pink-700 text-white py-3 shadow-sm z-20">
-        <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
-          <Link href="/sintomas" className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" />
-            Atrás
-          </Link>
-          <MiLunaLogo size="small" className="text-white" />
-          <button onClick={cerrarSesion} className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all">Cerrar sesión</button>
-        </div>
-      </header>
-
-      {/* Banner rosado */}
-      <section className="w-full bg-pink-200 py-8">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-3xl font-bold text-pink-700 flex items-center justify-center gap-2">
-            <Lightbulb className="w-7 h-7 text-pink-500" />
-            Consejos Personalizados
-          </h1>
-          <p className="text-sm text-gray-700 mt-2">Basados en tu ciclo menstrual y cómo te sientes</p>
-        </div>
-      </section>
-
-      <div className="relative z-10 flex flex-col items-center px-4 py-12">
-        <div className="w-full max-w-6xl">
-          
-          {/* ✅ NUEVO: Sección de Descargar Reporte PDF */}
-          <div className="mb-12 animate-fadeInUp border-2 border-purple-300 rounded-3xl p-8 bg-gradient-to-r from-purple-50 to-pink-50 shadow-xl">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="flex-shrink-0">
-                <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                </div>
-              </div>
-              <div className="flex-1">
-                <h3 className="text-2xl font-bold text-purple-700 mb-2">
-                  📊 Genera tu Reporte Personalizado
-                </h3>
-                <p className="text-gray-600 mb-4">
-                  Descarga un PDF completo con toda tu información de ciclo menstrual, síntomas registrados, 
-                  fase actual y recomendaciones personalizadas. Perfecto para compartir con tu médico o llevar 
-                  un registro histórico de tu salud.
-                </p>
-                <div className="bg-white rounded-xl p-4 mb-4">
-                  <p className="text-sm text-gray-600 mb-2"><strong>El reporte incluye:</strong></p>
-                  <ul className="text-sm text-gray-600 space-y-1 ml-4">
-                    <li>✅ Información completa de tu ciclo menstrual</li>
-                    <li>✅ Fase actual y próximo período estimado</li>
-                    <li>✅ Síntomas físicos y emocionales registrados</li>
-                    <li>✅ Recomendaciones personalizadas según tu fase</li>
-                    <li>✅ Consejos de autocuidado y bienestar</li>
-                  </ul>
-                </div>
-              </div>
+        {/* Topbar */}
+        <header className="w-full bg-pink-700 text-white py-3 shadow-sm z-20">
+          <div className="max-w-6xl mx-auto px-6 flex items-center justify-between">
+            <Link href="/sintomas" className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all flex items-center gap-2">
+              <ArrowLeft className="w-4 h-4" />
+              Atrás
+            </Link>
+            <div className="flex items-center gap-2">
+              <MiLunaLogo size="small" className="text-white" />
+              {username && (
+                <span className="text-xs text-white/80 hidden sm:inline">
+                  @{username}
+                </span>
+              )}
             </div>
-            <DescargarReporte />
+            <button 
+              onClick={cerrarSesion} 
+              className="glass-pink/40 px-3 py-1 rounded-full text-white/90 hover:text-white transition-all"
+            >
+              Cerrar sesión
+            </button>
           </div>
+        </header>
 
-          {/* ✅ Botón de Análisis con IA */}
-          {!geminiAnalizado && (
-            <div className="glass-pink rounded-3xl p-8 card-soft shadow-2xl mb-8 animate-fadeInUp border-2 border-purple-300">
-              <div className="text-center">
-                <div className="flex items-center justify-center mb-4">
-                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
-                    <Brain className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-3">
-                  ¿Quieres Consejos Más Profundos?
-                </h3>
-                <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                  Usa inteligencia artificial para obtener un análisis completo y personalizado de tu ciclo, 
-                  síntomas y bienestar emocional.
-                </p>
-                <button
-                  onClick={analizarConGemini}
-                  disabled={loadingGemini}
-                  className="btn-gradient text-white font-semibold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-3 mx-auto disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {loadingGemini ? (
-                    <>
-                      <Loader2 className="w-6 h-6 text-white animate-spin" />
-                      Analizando con IA...
-                    </>
-                  ) : (
-                    <>
-                      <Sparkles className="w-6 h-6 text-white" />
-                      Analizar con Inteligencia Artificial
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-          )}
+        {/* Banner rosado */}
+        <section className="w-full bg-pink-200 py-8">
+          <div className="max-w-6xl mx-auto px-6 text-center">
+            <h1 className="text-3xl font-bold text-pink-700 flex items-center justify-center gap-2">
+              <Lightbulb className="w-7 h-7 text-pink-500" />
+              Consejos Personalizados
+            </h1>
+            <p className="text-sm text-gray-700 mt-2">Basados en tu ciclo menstrual y cómo te sientes</p>
+            {username && (
+              <p className="text-xs text-gray-600 mt-1">
+                Consejos para: <strong>{username}</strong>
+              </p>
+            )}
+          </div>
+        </section>
 
-          {/* ✅ Consejos de Gemini */}
-          {geminiAnalizado && consejosGemini && (
-            <div className="glass-pink rounded-3xl p-8 card-soft shadow-2xl mb-8 animate-fadeInUp border-2 border-purple-300">
+        <div className="relative z-10 flex flex-col items-center px-4 py-12">
+          <div className="w-full max-w-6xl">
+          
+            {/* Sección de Descargar Reporte PDF */}
+            <div className="mb-12 animate-fadeInUp border-2 border-purple-300 rounded-3xl p-8 bg-gradient-to-r from-purple-50 to-pink-50 shadow-xl">
               <div className="flex items-start gap-4 mb-6">
                 <div className="flex-shrink-0">
-                  <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white shadow-lg">
-                    <Sparkles className="w-7 h-7 text-white" />
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
                   </div>
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-purple-700 mb-2 flex items-center gap-2">
-                    Análisis Personalizado con IA
-                    <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">Gemini AI</span>
+                  <h3 className="text-2xl font-bold text-purple-700 mb-2">
+                    📊 Genera tu Reporte Personalizado
                   </h3>
-                  <p className="text-sm text-gray-600">Basado en tu ciclo menstrual y síntomas registrados</p>
+                  <p className="text-gray-600 mb-4">
+                    Descarga un PDF completo con toda tu información de ciclo menstrual, síntomas registrados, 
+                    fase actual y recomendaciones personalizadas. Perfecto para compartir con tu médico o llevar 
+                    un registro histórico de tu salud.
+                  </p>
+                  <div className="bg-white rounded-xl p-4 mb-4">
+                    <p className="text-sm text-gray-600 mb-2"><strong>El reporte incluye:</strong></p>
+                    <ul className="text-sm text-gray-600 space-y-1 ml-4">
+                      <li>✅ Información completa de tu ciclo menstrual</li>
+                      <li>✅ Fase actual y próximo período estimado</li>
+                      <li>✅ Síntomas físicos y emocionales registrados</li>
+                      <li>✅ Recomendaciones personalizadas según tu fase</li>
+                      <li>✅ Consejos de autocuidado y bienestar</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-              <div className="prose prose-pink max-w-none">
-                <div className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
-                  {consejosGemini}
-                </div>
-              </div>
-              
-              <div className="mt-6 pt-6 border-t border-purple-200 text-center">
-                <button
-                  onClick={analizarConGemini}
-                  disabled={loadingGemini}
-                  className="text-purple-600 hover:text-purple-700 font-medium text-sm flex items-center gap-2 mx-auto transition-colors"
-                >
-                  <Sparkles className="w-4 h-4" />
-                  Actualizar análisis
-                </button>
-              </div>
+              <DescargarReporte />
             </div>
-          )}
 
-          {/* ✅ Consejos locales mejorados */}
-          {!geminiAnalizado && (
-            <>
-              <div className="mb-6">
-                <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                  <Lightbulb className="w-6 h-6 text-pink-500" />
-                  Tus Consejos Personalizados
-                </h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  Basados en tu fase del ciclo y síntomas registrados
-                </p>
-              </div>
-              
-              <div className="space-y-6 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
-                {consejos.map((consejo, index) => (
-                  <div 
-                    key={index} 
-                    className="glass-pink rounded-3xl p-8 card-soft shadow-2xl hover:scale-[1.02] transition-all duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="flex-shrink-0">
-                        <div className={`w-12 h-12 bg-gradient-to-r ${consejo.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg`}>
-                          {consejo.icono}
-                        </div>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-800 mb-3">{consejo.titulo}</h3>
-                        <p className="text-gray-700 text-base leading-relaxed whitespace-pre-line">{consejo.detalle}</p>
-                      </div>
+            {/* Botón de Análisis con IA */}
+            {!geminiAnalizado && (
+              <div className="glass-pink rounded-3xl p-8 card-soft shadow-2xl mb-8 animate-fadeInUp border-2 border-purple-300">
+                <div className="text-center">
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                      <Brain className="w-8 h-8 text-white" />
                     </div>
                   </div>
-                ))}
+                  <h3 className="text-2xl font-bold text-gray-800 mb-3">
+                    ¿Quieres Consejos Más Profundos?
+                  </h3>
+                  <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                    Usa inteligencia artificial para obtener un análisis completo y personalizado de tu ciclo, 
+                    síntomas y bienestar emocional.
+                  </p>
+                  <button
+                    onClick={analizarConGemini}
+                    disabled={loadingGemini}
+                    className="btn-gradient text-white font-semibold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-3 mx-auto disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {loadingGemini ? (
+                      <>
+                        <Loader2 className="w-6 h-6 text-white animate-spin" />
+                        Analizando con IA...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-6 h-6 text-white" />
+                        Analizar con Inteligencia Artificial
+                      </>
+                    )}
+                  </button>
+                </div>
               </div>
-            </>
-          )}
+            )}
 
-          {/* Botón volver al menú */}
-          <div className="flex justify-center mt-12 animate-fadeInUp">
-            <button
-              onClick={() => router.push('/menu')}
-              className="btn-gradient text-white font-semibold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-3"
-            >
-              <Home className="w-6 h-6 text-white" />
-              Volver al menú
-            </button>
+            {/* Consejos de Gemini */}
+            {geminiAnalizado && consejosGemini && (
+              <div className="glass-pink rounded-3xl p-8 card-soft shadow-2xl mb-8 animate-fadeInUp border-2 border-purple-300">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="flex-shrink-0">
+                    <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white shadow-lg">
+                      <Sparkles className="w-7 h-7 text-white" />
+                    </div>
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-bold text-purple-700 mb-2 flex items-center gap-2">
+                      Análisis Personalizado con IA
+                      <span className="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded-full">Gemini AI</span>
+                    </h3>
+                    <p className="text-sm text-gray-600">Basado en tu ciclo menstrual y síntomas registrados</p>
+                  </div>
+                </div>
+                <div className="prose prose-pink max-w-none">
+                  <div className="text-gray-700 text-lg leading-relaxed whitespace-pre-line">
+                    {consejosGemini}
+                  </div>
+                </div>
+              
+                <div className="mt-6 pt-6 border-t border-purple-200 text-center">
+                  <button
+                    onClick={analizarConGemini}
+                    disabled={loadingGemini}
+                    className="text-purple-600 hover:text-purple-700 font-medium text-sm flex items-center gap-2 mx-auto transition-colors"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    Actualizar análisis
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Consejos locales mejorados */}
+            {!geminiAnalizado && (
+              <>
+                <div className="mb-6">
+                  <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                    <Lightbulb className="w-6 h-6 text-pink-500" />
+                    Tus Consejos Personalizados
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Basados en tu fase del ciclo y síntomas registrados
+                  </p>
+                </div>
+              
+                <div className="space-y-6 animate-fadeInUp" style={{ animationDelay: '0.2s' }}>
+                  {consejos.map((consejo, index) => (
+                    <div 
+                      key={index} 
+                      className="glass-pink rounded-3xl p-8 card-soft shadow-2xl hover:scale-[1.02] transition-all duration-300"
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0">
+                          <div className={`w-12 h-12 bg-gradient-to-r ${consejo.color} rounded-full flex items-center justify-center text-white text-xl shadow-lg`}>
+                            {consejo.icono}
+                          </div>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-xl font-bold text-gray-800 mb-3">{consejo.titulo}</h3>
+                          <p className="text-gray-700 text-base leading-relaxed whitespace-pre-line">{consejo.detalle}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {/* Botón volver al menú */}
+            <div className="flex justify-center mt-12 animate-fadeInUp">
+              <button
+                onClick={() => router.push('/menu')}
+                className="btn-gradient text-white font-semibold py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-3"
+              >
+                <Home className="w-6 h-6 text-white" />
+                Volver al menú
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </ProtectedRoute>
   )
 }
