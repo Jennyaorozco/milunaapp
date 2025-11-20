@@ -2,11 +2,14 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react' // ✅ AGREGADO: useEffect
 import { MiLunaLogo } from '../../components/mi_luna_logo'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
-import { useState } from 'react'
 import { Droplet, Thermometer, Sparkle, Heart, Moon, Save } from 'lucide-react'
+
+// ✅ AGREGADO: Constante para localStorage
+const STORAGE_KEY = 'miCalendario'
 
 export default function Sintomas() {
   const router = useRouter()
@@ -14,7 +17,7 @@ export default function Sintomas() {
   const categories = [
     {
       name: 'Aspecto de mi flujo',
-      icon: <Droplet className="w-7 h-7 text-white" />, // Lucide icon blanco
+      icon: <Droplet className="w-7 h-7 text-white" />,
       key: 'flujo',
       placeholder: 'Ej: flujo espeso, marrón, con mal olor, amarillento, claro y elástico...',
       color: 'from-pink-400 to-rose-400',
@@ -23,7 +26,7 @@ export default function Sintomas() {
     },
     {
       name: 'Mis Síntomas',
-      icon: <Thermometer className="w-7 h-7 text-white" />, // Lucide icon blanco
+      icon: <Thermometer className="w-7 h-7 text-white" />,
       key: 'sintomas',
       placeholder: 'Ej: cólicos, dolor de cabeza, fatiga...',
       color: 'from-rose-400 to-pink-400',
@@ -32,7 +35,7 @@ export default function Sintomas() {
     },
     {
       name: 'Por Sanar',
-      icon: <Sparkle className="w-7 h-7 text-white" />, // Lucide icon blanco
+      icon: <Sparkle className="w-7 h-7 text-white" />,
       key: 'sanar',
       placeholder: 'Ej: autoestima baja, heridas emocionales, trauma, culpa...',
       color: 'from-purple-400 to-pink-400',
@@ -41,7 +44,7 @@ export default function Sintomas() {
     },
     {
       name: 'Mis Emociones',
-      icon: <Heart className="w-7 h-7 text-white" />, // Lucide icon blanco
+      icon: <Heart className="w-7 h-7 text-white" />,
       key: 'emociones',
       placeholder: 'Ej: tristeza, ansiedad, enojo, sensibilidad...',
       color: 'from-pink-400 to-purple-400',
@@ -119,7 +122,7 @@ export default function Sintomas() {
                   Mi Mes Lunar
                 </h2>
                 <div className="rounded-2xl p-2 bg-white">
-                  <Calendar className="w-full" />
+                  <Calendar className="w-full" value={startDate} />
                 </div>
               </div>
             </div>

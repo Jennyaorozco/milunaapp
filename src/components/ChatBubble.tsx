@@ -28,7 +28,7 @@ export default function ChatBubble() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [processStatus, setProcessStatus] = useState<ProcessStatus>({ loading: false });
-  const [aiProvider, setAiProvider] = useState<'gemini' | 'openai' | 'local'>('local');
+  const [aiProvider, setAiProvider] = useState<'gemini' | 'openai' | 'local' | 'checking'>('checking');
   
   // Estado para la posición arrastrable
   const [position, setPosition] = useState({ 
@@ -39,6 +39,34 @@ export default function ChatBubble() {
   const dragOffset = useRef({ x: 0, y: 0 });
   const chatRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // ✅ NUEVO: Verificar estado de Gemini al cargar
+  useEffect(() => {
+    const checkGeminiStatus = async () => {
+      try {
+        console.log('🔍 Verificando disponibilidad de Gemini...');
+        const response = await fetch('/api/rag/simple-chat');
+        const data = await response.json();
+        
+        if (data.initialization?.gemini_available && data.initialization?.working_model) {
+          setAiProvider('gemini');
+          console.log('✅ ChatBubble: Gemini disponible y configurado como modo predeterminado');
+          console.log(`🚀 Modelo activo: ${data.initialization.working_model}`);
+        } else {
+          setAiProvider('local');
+          console.log('⚠️ ChatBubble: Gemini no disponible, usando modo local');
+          if (data.initialization?.error) {
+            console.log(`Razón: ${data.initialization.error}`);
+          }
+        }
+      } catch (error) {
+        console.error('❌ Error verificando Gemini:', error);
+        setAiProvider('local');
+      }
+    };
+
+    checkGeminiStatus();
+  }, []);
 
   // ✅ Auto-scroll al final de los mensajes - SIN PROBLEMAS
   useEffect(() => {
@@ -214,6 +242,38 @@ Mientras tanto, ¿hay algo específico en lo que te pueda asistir?`
     }
   };
 
+  // ✅ FUNCIÓN HELPER para obtener información del proveedor
+  const getProviderInfo = () => {
+    switch (aiProvider) {
+      case 'checking':
+        return {
+          color: 'bg-gray-400',
+          name: 'Luna (Verificando...)',
+          emoji: '🔄'
+        };
+      case 'gemini':
+        return {
+          color: 'bg-green-400',
+          name: 'Luna (Gemini AI)',
+          emoji: '✨'
+        };
+      case 'openai':
+        return {
+          color: 'bg-blue-400',
+          name: 'Luna (OpenAI)',
+          emoji: '🤖'
+        };
+      case 'local':
+        return {
+          color: 'bg-yellow-400',
+          name: 'Luna (Modo Local)',
+          emoji: '💬'
+        };
+    }
+  };
+
+  const providerInfo = getProviderInfo();
+
   return (
     <div 
       ref={chatRef}
@@ -236,7 +296,7 @@ Mientras tanto, ¿hay algo específico en lo que te pueda asistir?`
           aria-label="Abrir chat"
         >
           <MessageCircle size={36} strokeWidth={2.5} />
-          <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-pink-300 rounded-full opacity-70"></div>
+          <div className={`absolute -bottom-1 -right-1 w-4 h-4 ${providerInfo.color} rounded-full`}></div>
         </button>
       )}
 
@@ -249,15 +309,11 @@ Mientras tanto, ¿hay algo específico en lo que te pueda asistir?`
             className="flex justify-between items-center bg-pink-500 text-white px-5 py-4 rounded-t-3xl cursor-grab active:cursor-grabbing relative"
           >
             <div className="flex items-center space-x-2">
-              <div className={`w-2 h-2 rounded-full ${
-                aiProvider === 'gemini' ? 'bg-green-400' : 
-                aiProvider === 'openai' ? 'bg-blue-400' : 
-                'bg-yellow-400'
+              <div className={`w-2 h-2 rounded-full ${providerInfo.color} ${
+                aiProvider === 'checking' ? 'animate-pulse' : ''
               }`}></div>
               <h3 className="font-semibold text-lg">
-                {aiProvider === 'gemini' ? 'Luna (Gemini)' : 
-                 aiProvider === 'openai' ? 'Luna (OpenAI)' : 
-                 'Luna (Local)'}
+                {providerInfo.name}
               </h3>
             </div>
             <button
@@ -304,26 +360,42 @@ Mientras tanto, ¿hay algo específico en lo que te pueda asistir?`
                 ) : (
                   <>
                     <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <MessageCircle size={24} className="text-pink-500" />
+                      <span className="text-3xl">{providerInfo.emoji}</span>
                     </div>
                     <p className="text-lg font-medium text-pink-600">¡Luna Asistente! 🌙</p>
                     <p className="mt-1">Pregúntame lo que quieras</p>
-                    <p className="text-xs mt-4 text-gray-400">
-                      💡 Potenciado por Google Gemini AI - Respuestas inteligentes y gratuitas
-                    </p>
-                    <div className="mt-2 text-xs text-gray-500">
-                      <p>Modo actual: 
-                        <span className={`font-semibold ${
-                          aiProvider === 'gemini' ? 'text-green-500' : 
-                          aiProvider === 'openai' ? 'text-blue-500' : 
-                          'text-yellow-500'
-                        }`}>
-                          {aiProvider === 'gemini' ? ' Gemini AI' : 
-                           aiProvider === 'openai' ? ' OpenAI' : 
-                           ' Local'}
-                        </span>
-                      </p>
-                    </div>
+                    
+                    {aiProvider === 'checking' ? (
+                      <div className="mt-4">
+                        <div className="flex justify-center">
+                          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-pink-500"></div>
+                        </div>
+                        <p className="text-xs mt-2 text-gray-400">Verificando disponibilidad de IA...</p>
+                      </div>
+                    ) : (
+                      <>
+                        <p className="text-xs mt-4 text-gray-400">
+                          {aiProvider === 'gemini' && '✨ Potenciado por Google Gemini AI - Respuestas inteligentes'}
+                          {aiProvider === 'openai' && '🤖 Potenciado por OpenAI - Respuestas inteligentes'}
+                          {aiProvider === 'local' && '💬 Modo local - Respuestas basadas en conocimiento interno'}
+                        </p>
+                        <div className="mt-2 text-xs">
+                          <p className="flex items-center justify-center gap-2">
+                            <span className="text-gray-500">Modo actual:</span>
+                            <span className={`font-semibold inline-flex items-center gap-1 ${
+                              aiProvider === 'gemini' ? 'text-green-600' : 
+                              aiProvider === 'openai' ? 'text-blue-600' : 
+                              'text-yellow-600'
+                            }`}>
+                              <span className={`w-2 h-2 rounded-full ${providerInfo.color}`}></span>
+                              {aiProvider === 'gemini' ? 'Gemini AI' : 
+                               aiProvider === 'openai' ? 'OpenAI' : 
+                               'Local'}
+                            </span>
+                          </p>
+                        </div>
+                      </>
+                    )}
                   </>
                 )}
               </div>

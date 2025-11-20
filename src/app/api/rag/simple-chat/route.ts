@@ -1,56 +1,105 @@
-// app/api/rag/simple-chat/route.ts - VERSIÓN CORREGIDA CON TYPESCRIPT FIX
+// app/api/rag/simple-chat/route.ts - CON DETECCIÓN INICIAL DE GEMINI
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Inicializar Gemini
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY || "");
 
-// Variable para cachear el modelo que funciona
+// ✅ Variables globales para cachear estado de Gemini
 let workingModel: string | null = null;
+let geminiInitialized = false;
+let geminiAvailable = false;
+let initializationError: string | null = null;
 
-// ✅ FUNCIÓN DETECT WORKING MODEL - CORREGIDA
-async function detectWorkingModel(): Promise<string> {
-  if (workingModel) {
-    return workingModel;
+// ✅ FUNCIÓN PARA INICIALIZAR Y VERIFICAR GEMINI AL ARRANCAR
+async function initializeGemini(): Promise<void> {
+  if (geminiInitialized) return;
+
+  console.log("🚀 Inicializando y verificando Google Gemini...");
+
+  if (!process.env.GOOGLE_GEMINI_API_KEY) {
+    console.log("⚠️  No hay API key de Gemini configurada. Modo local activado.");
+    geminiInitialized = true;
+    geminiAvailable = false;
+    initializationError = "API key no configurada";
+    return;
   }
 
-  // MODELOS ACTUALES DE GEMINI (Octubre 2024)
   const testModels = [
     "gemini-2.0-flash-exp",
-    "gemini-1.5-flash",
-    "gemini-1.5-pro", 
-    "gemini-1.0-pro",
-    "gemini-pro",
-    "models/gemini-pro"
+    "gemini-2.0-flash",
   ];
 
   for (const modelName of testModels) {
     try {
-      console.log(`🔍 Probando modelo: ${modelName}`);
+      console.log(`🔍 Verificando modelo: ${modelName}`);
       const model = genAI.getGenerativeModel({ 
         model: modelName,
         generationConfig: { maxOutputTokens: 10 }
       });
       
-      const result = await model.generateContent("Hola");
+      const result = await model.generateContent("test");
       await result.response;
       
       workingModel = modelName;
-      console.log(`✅ Modelo encontrado: ${workingModel}`);
-      return workingModel;
+      geminiAvailable = true;
+      geminiInitialized = true;
+      console.log(`✅ Gemini DISPONIBLE y LISTO - Modelo: ${workingModel}`);
+      console.log("🎯 El chatbot usará Gemini AI desde el inicio");
+      return;
       
     } catch (error) {
-      // ✅ CORRECCIÓN: Verificar tipo del error
       const errorMessage = error instanceof Error ? error.message : String(error);
-      console.log(`❌ ${modelName} no funciona:`, errorMessage);
+      console.log(`❌ ${modelName} no disponible:`, errorMessage);
+      
+      if (errorMessage.includes("429")) {
+        initializationError = "Cuota agotada (429)";
+        console.log("⏳ Cuota de Gemini agotada");
+      }
+      
       continue;
     }
   }
 
-  throw new Error("No se encontró ningún modelo de Gemini funcionando. Modelos probados: " + testModels.join(', '));
+  // Si llegamos aquí, ningún modelo funcionó
+  geminiInitialized = true;
+  geminiAvailable = false;
+  initializationError = "No se encontró modelo disponible";
+  console.log("❌ Gemini NO DISPONIBLE - Usando modo local");
 }
 
-// [Mantener toda la base de conocimiento igual...]
+// ✅ EJECUTAR INICIALIZACIÓN INMEDIATAMENTE AL CARGAR EL MÓDULO
+initializeGemini().catch(error => {
+  console.error("Error en inicialización de Gemini:", error);
+  geminiInitialized = true;
+  geminiAvailable = false;
+});
+
+// ✅ FUNCIÓN MEJORADA PARA DETECTAR MODELO (usa caché)
+async function detectWorkingModel(): Promise<string> {
+  // Si ya tenemos un modelo en caché, usarlo
+  if (workingModel) {
+    return workingModel;
+  }
+
+  // Si no está inicializado, inicializar ahora
+  if (!geminiInitialized) {
+    await initializeGemini();
+  }
+
+  // Si después de inicializar sigue sin modelo, lanzar error
+  if (!workingModel) {
+    throw new Error(
+      `❌ Gemini no está disponible.\n` +
+      `Causa: ${initializationError}\n` +
+      `Solución: Verifica tu API key y cuota en https://console.cloud.google.com/billing`
+    );
+  }
+
+  return workingModel;
+}
+
+// Base de conocimiento local
 const localKnowledgeBase = {
   greetings: [
     "¡Hola! Soy Luna, tu asistente personal 🌙 ¿En qué puedo ayudarte hoy?",
@@ -125,7 +174,6 @@ Soy Luna, el asistente con IA integrado en Miluna. Esta aplicación está diseñ
   ]
 };
 
-// Respuestas específicas para preguntas comunes
 const specificResponses: { [key: string]: string } = {
   "qué es miluna": `**Miluna** es tu aplicación personal todo-en-uno 🌙
 
@@ -176,7 +224,6 @@ Me da mucho gusto que me llames por mi nombre. Soy Luna, tu asistente personal p
 ¿En qué puedo ayudarte hoy?`
 };
 
-// Función para analizar la intención del mensaje
 function analyzeIntent(message: string): string {
   const lowerMessage = message.toLowerCase();
   
@@ -199,23 +246,19 @@ function analyzeIntent(message: string): string {
   return 'general';
 }
 
-// Función para seleccionar respuesta aleatoria
 function getRandomResponse(responses: string[]): string {
   return responses[Math.floor(Math.random() * responses.length)];
 }
 
-// Función para generar respuesta local
 function generateLocalResponse(message: string): string {
   const lowerMessage = message.toLowerCase().trim();
   
-  // Buscar respuesta específica primero
   for (const [key, response] of Object.entries(specificResponses)) {
     if (lowerMessage.includes(key)) {
       return response;
     }
   }
   
-  // Si no hay respuesta específica, analizar la intención
   const intent = analyzeIntent(message);
   
   switch (intent) {
@@ -230,24 +273,24 @@ function generateLocalResponse(message: string): string {
     default:
       return `¡Interesante pregunta! 🌟
 
-Como asistente potenciado por IA, normalmente podría darte una respuesta más específica, pero estoy teniendo un problema temporal de conexión.
+Como asistente potenciado por IA, normalmente podría darte una respuesta más específica, pero estoy teniendo un problema temporal de conexión con Gemini.
 
 Mientras se soluciona, ¿hay algo específico sobre Miluna o mis funciones en lo que te pueda ayudar?`;
   }
 }
 
-// ✅ FUNCIÓN CORREGIDA PARA GEMINI - CON MANEJO DE ERRORES TYPESCRIPT
+// ✅ FUNCIÓN PARA LLAMAR A GEMINI - OPTIMIZADA
 async function callGemini(message: string): Promise<string> {
-  console.log("🔑 Intentando con Google Gemini...");
-  
-  if (!process.env.GOOGLE_GEMINI_API_KEY) {
-    throw new Error("Google Gemini API key no configurada");
+  // Verificar si Gemini está disponible (ya pre-verificado al inicio)
+  if (!geminiAvailable) {
+    throw new Error(`Gemini no disponible. Razón: ${initializationError}`);
   }
 
+  console.log("🔑 Usando Google Gemini (ya verificado)...");
+
   try {
-    // Detectar el modelo que funciona
     const modelName = await detectWorkingModel();
-    console.log(`🚀 Usando modelo: ${modelName}`);
+    console.log(`🚀 Modelo en uso: ${modelName}`);
 
     const model = genAI.getGenerativeModel({ 
       model: modelName,
@@ -288,13 +331,13 @@ RESPUESTA:`;
     return text;
 
   } catch (error) {
-    // ✅ CORRECCIÓN: Manejo seguro del tipo unknown
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error("Error en Gemini:", error);
+    console.error("❌ Error en Gemini:", error);
     throw new Error(`Gemini error: ${errorMessage}`);
   }
 }
 
+// ✅ ENDPOINT POST - CON PRE-VERIFICACIÓN DE GEMINI
 export async function POST(request: NextRequest) {
   try {
     const { message } = await request.json();
@@ -308,68 +351,33 @@ export async function POST(request: NextRequest) {
       });
     }
 
+    // Asegurar que Gemini esté inicializado
+    if (!geminiInitialized) {
+      await initializeGemini();
+    }
+
     let responseText = '';
     let responseType = 'local';
     let geminiError = null;
 
-    // INTENTAR CON GEMINI PRIMERO (si hay API key)
-    if (process.env.GOOGLE_GEMINI_API_KEY) {
+    // ✅ INTENTAR CON GEMINI SI ESTÁ DISPONIBLE (ya pre-verificado)
+    if (geminiAvailable && workingModel) {
       try {
         responseText = await callGemini(message);
         responseType = 'gemini';
         console.log("✅ Respuesta de Gemini exitosa");
       } catch (error) {
-        // ✅ CORRECCIÓN: Manejo seguro del tipo unknown
         geminiError = error instanceof Error ? error.message : String(error);
-        console.log("🔄 Gemini falló, usando modo local. Error:", geminiError);
-        
-        // Intentar con OpenAI como respaldo si está configurado
-        if (process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.startsWith('sk-')) {
-          try {
-            console.log("🔄 Intentando con OpenAI como respaldo...");
-            const openaiResponse = await fetch('https://api.openai.com/v1/chat/completions', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
-              },
-              body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [
-                  {
-                    role: 'system',
-                    content: "Eres Luna, un asistente amigable. Responde de manera concisa y útil."
-                  },
-                  {
-                    role: 'user',
-                    content: message
-                  }
-                ],
-                max_tokens: 300,
-                temperature: 0.7
-              })
-            });
-
-            if (openaiResponse.ok) {
-              const data = await openaiResponse.json();
-              responseText = data.choices[0].message.content;
-              responseType = 'openai';
-              console.log("✅ Respuesta de OpenAI exitosa (respaldo)");
-            } else {
-              throw new Error("OpenAI también falló");
-            }
-          } catch (openaiError) {
-            // ✅ CORRECCIÓN: Manejo seguro del tipo unknown
-            const openaiErrorMessage = openaiError instanceof Error ? openaiError.message : String(openaiError);
-            console.log("❌ OpenAI también falló:", openaiErrorMessage);
-          }
-        }
+        console.log("❌ Gemini falló en esta solicitud. Usando modo local. Error:", geminiError);
+        responseText = generateLocalResponse(message);
+        responseType = 'local_fallback';
       }
     } else {
-      console.log("🔄 No hay API key de Gemini, usando modo local");
+      console.log(`⚠️  Gemini no disponible. Razón: ${initializationError}. Usando modo local.`);
+      responseText = generateLocalResponse(message);
+      responseType = 'local_only';
     }
 
-    // SI GEMINI FALLÓ O NO HAY API KEY, USAR MODO LOCAL
     if (!responseText) {
       responseText = generateLocalResponse(message);
       console.log("✅ Respuesta local generada");
@@ -380,20 +388,19 @@ export async function POST(request: NextRequest) {
       response: responseText,
       sources: [],
       type: responseType,
-      gemini_status: responseType === 'gemini' ? 'active' : 'inactive',
-      gemini_error: geminiError,
-      gemini_model: workingModel || 'not_detected'
+      gemini_status: geminiAvailable ? 'available' : 'unavailable',
+      gemini_error: geminiError || initializationError,
+      gemini_model: workingModel || 'not_detected',
+      initialized: geminiInitialized
     });
 
   } catch (error) {
-    // ✅ CORRECCIÓN: Manejo seguro del tipo unknown
     const errorMessage = error instanceof Error ? error.message : String(error);
     console.error('❌ Error general en el chat:', error);
     
-    // Fallback ultra-resiliente
     const fallbackResponse = `¡Hola! Soy Luna 🌙
 
-Parece que hay un pequeño problema técnico temporal con mis sistemas de IA, pero estoy aquí para ayudarte con mis respuestas locales.
+Parece que hay un pequeño problema técnico temporal, pero estoy aquí para ayudarte con mis respuestas locales.
 
 ¿En qué puedo asistirte hoy?`;
 
@@ -406,61 +413,47 @@ Parece que hay un pequeño problema técnico temporal con mis sistemas de IA, pe
   }
 }
 
-// ✅ Endpoint GET CORREGIDO CON MANEJO DE ERRORES TYPESCRIPT
+// ✅ ENDPOINT GET - DIAGNÓSTICO CON ESTADO DE INICIALIZACIÓN
 export async function GET() {
-  const hasGeminiKey = !!process.env.GOOGLE_GEMINI_API_KEY;
-  const hasOpenAIKey = !!(process.env.OPENAI_API_KEY && process.env.OPENAI_API_KEY.startsWith('sk-'));
-  
-  let geminiTest: { 
-    status: string; 
-    error: string | null; 
-    model: string | null 
-  } = {
-    status: 'not_tested',
-    error: null,
-    model: null
-  };
-
-  // Probar Gemini si hay key
-  if (hasGeminiKey) {
-    try {
-      const modelName = await detectWorkingModel();
-      geminiTest.status = 'working';
-      geminiTest.model = modelName;
-    } catch (error) {
-      // ✅ CORRECCIÓN: Manejo seguro del tipo unknown
-      geminiTest.status = 'error';
-      geminiTest.error = error instanceof Error ? error.message : String(error);
-    }
+  // Asegurar que Gemini esté inicializado antes del diagnóstico
+  if (!geminiInitialized) {
+    await initializeGemini();
   }
 
+  const hasGeminiKey = !!process.env.GOOGLE_GEMINI_API_KEY;
+  
   return NextResponse.json({
     status: "active",
     message: "Chat endpoint funcionando",
     timestamp: new Date().toISOString(),
-    ai_providers: {
+    ai_provider: "Google Gemini (SOLO)",
+    initialization: {
+      completed: geminiInitialized,
+      gemini_available: geminiAvailable,
+      working_model: workingModel,
+      error: initializationError
+    },
+    configuration: {
       gemini: {
         configured: hasGeminiKey,
-        status: geminiTest.status,
-        model: geminiTest.model,
-        error: geminiTest.error
-      },
-      openai: {
-        configured: hasOpenAIKey,
-        status: hasOpenAIKey ? 'not_tested' : 'not_configured',
-        error: null
-      },
-      local: {
-        status: "active"
+        status: geminiAvailable ? 'working' : 'unavailable',
+        model: workingModel,
+        error: initializationError,
+        how_to_get_key: "https://aistudio.google.com/app/apikey"
       }
     },
-    mode: hasGeminiKey && geminiTest.status === 'working' ? "gemini_primary" : hasOpenAIKey ? "openai_primary" : "local_only",
+    mode: geminiAvailable ? "gemini_active" : "local_fallback",
     features: [
-      "Google Gemini AI (gratuito)",
-      "OpenAI GPT (respaldo, si está configurado)",
-      "Modo local inteligente",
-      "Detección automática de modelos",
-      "Sistema de fallback automático"
-    ]
+      "✅ Verificación de Gemini al arrancar el servidor",
+      "✅ Detección automática de modelos disponibles",
+      "✅ Modo local inteligente como fallback",
+      "✅ Sin dependencia de OpenAI",
+      "✅ Caché de estado de Gemini para mejor rendimiento"
+    ],
+    models_being_tested: ["gemini-2.0-flash-exp", "gemini-2.0-flash"],
+    note: geminiAvailable 
+      ? "🎯 Gemini está ACTIVO y funcionando desde el inicio"
+      : "⚠️ Gemini NO disponible. Usando modo local como fallback",
+    performance_tip: "El estado de Gemini se verifica una sola vez al arrancar para mejor rendimiento"
   });
 }
