@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { Download, Loader2, Check } from 'lucide-react'
 import { useCalendario } from '../contexts/CalendarioContext'
 import { generarReportePDF, DatosReporte } from '../lib/pdfGenerator'
+import { getUserData } from '../lib/userStorage' // ✅ IMPORTAR
 
 export default function DescargarReporte() {
   const { calendario } = useCalendario()
@@ -14,8 +15,12 @@ export default function DescargarReporte() {
   const manejarDescarga = async () => {
     setLoading(true)
     try {
-      // Recopilar datos de síntomas
-      const datosSintomas = JSON.parse(localStorage.getItem('misSintomas') || '{}')
+      // ✅ CORREGIDO: Usar getUserData en vez de localStorage.getItem directo
+      const sintomasString = getUserData('misSintomas')
+      const datosSintomas = sintomasString ? JSON.parse(sintomasString) : {}
+      
+      // 🔍 DEBUG - Puedes comentar o eliminar después de verificar
+      console.log('📦 Síntomas obtenidos:', datosSintomas)
 
       // Preparar datos para PDF
       const datosReporte: DatosReporte = {
@@ -41,7 +46,7 @@ export default function DescargarReporte() {
       setDescargado(true)
       setTimeout(() => setDescargado(false), 3000)
     } catch (error) {
-      console.error('Error descargando PDF:', error)
+      console.error('❌ Error descargando PDF:', error)
       alert('Error al generar el PDF. Intenta de nuevo.')
     } finally {
       setLoading(false)
